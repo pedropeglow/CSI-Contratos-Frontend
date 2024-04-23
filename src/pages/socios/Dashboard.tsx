@@ -1,28 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useCSICareContext } from '../../context';
 
-import {
-	Card,
-	CardContent,
-	Typography,
-	CardActions,
-	Container,
-	Box,
-	IconButton,
-	Avatar,
-	Stack,
-	CircularProgress,
-} from '@mui/material';
+
 import { Socio } from '../../types/socios';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import Paw from './../../assets/paw.png';
-import Dog from './../../assets/dog.png';
-import Cat from './../../assets/cat.png';
-import { StartHere } from '../../components/startHere';
-import SnackbarComponent from '../../components/snackbar/Snackbar';
 
 interface DashboardProps {
 	handleOpenCreateForm: () => void;

@@ -102,7 +102,7 @@ export const Login = () => {
 
 						<Button
 							style={{
-								backgroundColor: '##1876F2',
+								backgroundColor: '#1876F2',
 								color: '#fff',
 								width: '100%',
 							}}

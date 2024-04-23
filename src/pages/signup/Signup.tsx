@@ -1,4 +1,4 @@
-import { Button, Input, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
 	Container,
@@ -11,13 +11,11 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Background from '../../components/background';
-
-import logoImg from '../../assets/logo.png';
+import logoImg from '../../assets/pdf.png';
 import { signup } from '../../services/signUpService';
 import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
-	fullname: yup.string().required('Campo nome é obrigatório'),
 	email: yup
 		.string()
 		.required('Campo e-mail obrigatório')
@@ -31,7 +29,6 @@ const schema = yup.object().shape({
 interface FormData {
 	email: string;
 	password: string;
-	fullname: string;
 }
 
 export const Signup = () => {
@@ -69,15 +66,6 @@ export const Signup = () => {
 						style={{ border: '5px black' }}
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<StyledTextField
-							id='outlined-basic'
-							label='Digite seu nome completo'
-							variant='outlined'
-							{...register('fullname')}
-						/>
-						{errors.fullname && (
-							<ErrorSpan>{errors.fullname.message}</ErrorSpan>
-						)}
 
 						<StyledTextField
 							id='outlined-basic'
@@ -99,7 +87,7 @@ export const Signup = () => {
 
 						<Button
 							style={{
-								backgroundColor: '#FAB06A',
+								backgroundColor: '#1876F2',
 								color: '#fff',
 								width: '100%',
 							}}

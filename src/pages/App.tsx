@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import styled from '@emotion/styled';
 import LogoImage from './../assets/logo.png';
-import { MyPets } from './socios/MyPets';
+import { MySocios } from './socios/MySocios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCSICareContext } from '../context';
 import { Users } from './users/Users';
@@ -54,13 +54,6 @@ function App() {
 		!!isMenuOpen ? setMenuOpen(false) : setMenuOpen(true);
 	};
 
-	useEffect(() => {
-		if (content == 1) navigate('/profile');
-		if (content == 2) navigate('/vacinas');
-		if (content == 3) navigate('/higiene');
-		if (content == 4) navigate('/controle-parasitario');
-		if (content == 6) navigate('/usuario/edit');
-	}, [content]);
 
 	useEffect(() => {
 		getUser();
@@ -114,19 +107,11 @@ function App() {
 								>
 									<MenuItem
 										onClick={() => {
-											setContent(1);
-											setMenuOpen(false);
-										}}
-									>
-										Meus pets
-									</MenuItem>
-									<MenuItem
-										onClick={() => {
 											setContent(2);
 											setMenuOpen(false);
 										}}
 									>
-										Vacinas
+										Meus Sócios
 									</MenuItem>
 									<MenuItem
 										onClick={() => {
@@ -134,7 +119,7 @@ function App() {
 											setMenuOpen(false);
 										}}
 									>
-										Higiene
+										Consultar Contrato
 									</MenuItem>
 									<MenuItem
 										onClick={() => {
@@ -142,7 +127,7 @@ function App() {
 											setMenuOpen(false);
 										}}
 									>
-										Controle parasitário
+										Gerar Contrato
 									</MenuItem>
 									<MenuItem>
 									<ListItemButton
@@ -173,8 +158,8 @@ function App() {
 						</>
 					)}
 					{content == 1 ? (
-						<MyPets />
-					) :  content == 6 ? (
+						<MySocios />
+					) :  content == 5 ? (
 						<Users />
 					) : (
 						<div> Página {content} ainda em construção</div>

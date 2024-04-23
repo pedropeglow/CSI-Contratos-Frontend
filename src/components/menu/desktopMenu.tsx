@@ -1,19 +1,15 @@
 import styled from '@emotion/styled';
 import {
 	Box,
-	Divider,
-	List,
 	ListItem,
 	ListItemButton,
-	MenuItem,
 } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import LogoImage from './../../assets/logo.png';
+import pdfImage from './../../assets/pdf.png';
 import { MenuProps } from './types';
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { border } from '@mui/system';
 
 const Menu = styled(Box)`
 	display: flex;
@@ -35,20 +31,15 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 			flexDirection='column'
 			width='200px'
 		>
-			<Logo src={LogoImage} />
+			<Logo src={pdfImage} />
 			<ListItem>
-				<ListItemButton onClick={() => setContent(1)}>Meus Pets</ListItemButton>
+				<ListItemButton onClick={() => setContent(1)}>Meus Sócios</ListItemButton>
 			</ListItem>
 			<ListItem>
-				<ListItemButton onClick={() => setContent(2)}>Vacinas</ListItemButton>
+				<ListItemButton onClick={() => setContent(3)}>Consultar Contrato</ListItemButton>
 			</ListItem>
 			<ListItem>
-				<ListItemButton onClick={() => setContent(3)}>Higiene</ListItemButton>
-			</ListItem>
-			<ListItem>
-				<ListItemButton onClick={() => setContent(4)}>
-					Controle Parasitário
-				</ListItemButton>
+				<ListItemButton onClick={() => setContent(4)}>Gerar Contrato</ListItemButton>
 			</ListItem>
 			<ListItem style={{ position: 'absolute', bottom: '0px' }}>
 				<ListItemButton
@@ -67,7 +58,7 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 				<ListItem>
 					<ListItemButton
 						style={{ display: 'flex', justifyContent: 'center' }}
-						onClick={() => setContent(6)}
+						onClick={() => setContent(5)}
 					>
 						<PersonIcon
 							fontSize='large'

@@ -16,7 +16,6 @@ import { Input, FormControl, FormLabel, Button } from '@mui/joy';
 import SnackbarComponent from '../../components/snackbar/Snackbar';
 
 const schema = yup.object().shape({
-	nome: yup.string().required('Campo nome completo é obrigatório'),
 	email: yup.string(),
 });
 
@@ -27,7 +26,6 @@ interface FormProps {
 export const Form = ({}: FormProps) => {
 	const {
 		register,
-		handleSubmit,
 		formState: { errors, isValid },
 		setValue,
 	} = useForm<User>({
@@ -40,7 +38,6 @@ export const Form = ({}: FormProps) => {
 	const [user, setUser] = useState<User>(currentUser);
 
 	useEffect(() => {
-		setValue('nome', currentUser.nome);
 		setValue('email', currentUser.email);
 	}, [currentUser, setValue]);
 
@@ -68,14 +65,6 @@ export const Form = ({}: FormProps) => {
 					}}
 				>
 					<FormControl>
-						<FormLabel>Nome Completo</FormLabel>
-						<Input
-							{...register('nome')}
-							onChange={(e) => setUser({ ...user, nome: e.target.value })}
-							value={user.nome}
-						/>
-					</FormControl>
-					<FormControl>
 						<FormLabel>Email</FormLabel>
 						<Input
 							{...register('email')}
@@ -98,7 +87,6 @@ export const Form = ({}: FormProps) => {
 					</Stack>
 				</Container>
 			</Container>
-			{!!snackbarOpen.status && <SnackbarComponent />}
 		</>
 	);
 };

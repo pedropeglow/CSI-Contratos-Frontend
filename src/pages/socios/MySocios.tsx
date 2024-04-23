@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dashboard } from './Dashboard';
 import { Form } from './Form';
 
-export const MyPets = () => {
+export const MySocios = () => {
 	const navigate = useNavigate();
 	const { getPets, deletePet, getPetPdf } = useCSICareContext();
 

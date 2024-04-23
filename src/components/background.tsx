@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import {
 	Box,
 	Container,
-	Grid,
 	Paper,
-	ThemeOptions,
 	css,
 	useTheme,
 } from '@mui/material';
@@ -14,22 +12,9 @@ interface Props {
 	theme: any;
 }
 
-const Circle = styled(Box)<Props>`
-	${({ color, theme }) => css`
-		background-color: ${color === 'orange' ? '#feb06a' : '#36d6e7'};
-		border-radius: 50%;
-		height: 20rem;
-		width: 20rem;
-		margin-left: ${color === 'blue' && 'calc(100vw - 360px)'};
-		${theme.breakpoints.down('sm')} {
-			display: none;
-		}
-	`}
-`;
-
 const Wrapper = styled(Container)<Props>`
 	${({ theme }) => css`
-		background-color: #e4c9e5;
+		background-color: #BBEAEC;
 		height: 100vh;
 		width: 100vw;
 		display: grid;
@@ -56,7 +41,7 @@ const Card = styled(Paper)<Props>`
 		margin-top: 50px;
 		margin-bottom: 50px;
 		width: calc(100vw - 150px);
-		max-width: 800px;
+		max-width: 1200px;
 		border-radius: 20px;
 		overflow: auto;
 		${theme.breakpoints.down('sm')} {
@@ -89,8 +74,6 @@ const Background = ({ children }: { children: JSX.Element | any }) => {
 					{children}
 				</Card>
 			</Box>
-			{/* <Circle color={"orange"} theme={theme} /> */}
-			{/* <Circle color={"blue"} theme={theme} /> */}
 		</Wrapper>
 	);
 };

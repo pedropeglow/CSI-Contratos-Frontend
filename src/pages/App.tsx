@@ -54,6 +54,13 @@ function App() {
 		!!isMenuOpen ? setMenuOpen(false) : setMenuOpen(true);
 	};
 
+	useEffect(() => {
+		if (content == 1) navigate('/socios');
+		if (content == 2) navigate('/');
+		if (content == 3) navigate('/consultaContrato');
+		if (content == 4) navigate('/gerarContrato');
+		if (content == 6) navigate('/usuario/edit');
+	}, [content]);
 
 	useEffect(() => {
 		getUser();
@@ -107,7 +114,7 @@ function App() {
 								>
 									<MenuItem
 										onClick={() => {
-											setContent(2);
+											setContent(1);
 											setMenuOpen(false);
 										}}
 									>
@@ -115,7 +122,7 @@ function App() {
 									</MenuItem>
 									<MenuItem
 										onClick={() => {
-											setContent(3);
+											setContent(2);
 											setMenuOpen(false);
 										}}
 									>
@@ -159,7 +166,7 @@ function App() {
 					)}
 					{content == 1 ? (
 						<MySocios />
-					) :  content == 5 ? (
+					) :  content == 6 ? (
 						<Users />
 					) : (
 						<div> Página {content} ainda em construção</div>

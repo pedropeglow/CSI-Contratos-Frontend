@@ -1,4 +1,4 @@
 export interface Socio {
 	id: string;
-	nome: string;
+	name: string;
 }

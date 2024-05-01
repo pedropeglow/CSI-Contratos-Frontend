@@ -15,7 +15,8 @@ export const CSIContext = createContext({} as any);
 
 export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<any[]>([]);
-	const [user, setUser] = useState<User>({ email: '', id: 5, nome: '' });
+	const [pessoasJuridicas, setPessoasJuridicas] = useState<any[]>([]);
+	const [user, setUser] = useState<User>({ email: '', id: 5 });
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{
 		status: boolean;
@@ -94,6 +95,73 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
+	const getPessoaJuridicas = async () => {
+		try {
+			const response = await getSociosService(user.id);
+			setSocios(response.data.socios);
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	const createPessoaJuridicas = async (socioData: any) => {
+		try {
+			socioData.userId = user.id;
+			setSnackbarOpen({
+				status: true,
+				type: 'success',
+				message: 'Sucesso ao cadastrar seu socio :)',
+			});
+			const response = await createSocioService(socioData);
+			return response;
+		} catch (error) {
+			setSnackbarOpen({
+				status: true,
+				type: 'error',
+				message: 'Nós não conseguimos cadastrar seu sócio :(',
+			});
+			throw error;
+		}
+	};
+
+	const updatePessoaJuridicas = async (petData: any) => {
+		try {
+			const response = await updateSocioService(petData);
+			setSnackbarOpen({
+				status: true,
+				type: 'success',
+				message: 'Sucesso ao alterar seu sócio :)',
+			});
+			return response;
+		} catch (error) {
+			setSnackbarOpen({
+				status: true,
+				type: 'error',
+				message: 'Nós não conseguimos alterar seu sócio :(',
+			});
+			throw error;
+		}
+	};
+
+	const deletePessoaJuridicas = async (id: any) => {
+		try {
+			const response = await deleteSocioService(id);
+			setSnackbarOpen({
+				status: true,
+				type: 'success',
+				message: 'Sucesso ao deletar seu sócio',
+			});
+			return response;
+		} catch (error) {
+			setSnackbarOpen({
+				status: true,
+				type: 'error',
+				message: 'Nós não conseguimos deletar seu sócio :(',
+			});
+			throw error;
+		}
+	};
+
 	const getUser = async () => {
 		try {
 			const response = await getUserService(user.id);
@@ -129,6 +197,7 @@ export function ProviderContext({ children }: any) {
 	const states = {
 		socios,
 		user,
+		pessoasJuridicas
 	};
 
 	const actions = {
@@ -140,6 +209,10 @@ export function ProviderContext({ children }: any) {
 		getUser,
 		updateUser,
 		setSnackbarOpen,
+		getPessoaJuridicas,
+		createPessoaJuridicas,
+		updatePessoaJuridicas,
+		deletePessoaJuridicas
 	};
 
 	return (

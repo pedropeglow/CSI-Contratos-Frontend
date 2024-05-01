@@ -38,6 +38,22 @@ const router = createBrowserRouter([
 		element: <App />,
 	},
 	{
+		path: '/pessoaJuridica',
+		element: <App />,
+	},
+	{
+		path: '/pessoaJuridica/dashboard',
+		element: <App />,
+	},
+	{
+		path: '/pessoaJuridica/create',
+		element: <App />,
+	},
+	{
+		path: '/pessoaJuridica/edit',
+		element: <App />,
+	},
+	{
 		path: '/usuario/edit',
 		element: <App />,
 	},

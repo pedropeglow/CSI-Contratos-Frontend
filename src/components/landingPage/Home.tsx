@@ -1,4 +1,4 @@
-import { Box, Button, styled, Typography } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import { Container } from "@mui/material";
 import React from "react";
 import Navbar from "./Navbar";

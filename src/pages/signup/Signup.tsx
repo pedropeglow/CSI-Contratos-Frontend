@@ -11,7 +11,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Background from '../../components/background';
-import logoImg from '../../assets/pdf.png';
+import logoImg from '../../assets/csi.png';
 import { signup } from '../../services/signUpService';
 import { useNavigate } from 'react-router-dom';
 

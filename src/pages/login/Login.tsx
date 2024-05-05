@@ -15,7 +15,7 @@ import * as yup from 'yup';
 import { login } from '../../services/loginService';
 import { Link, useNavigate } from 'react-router-dom';
 import Background from '../../components/background';
-import logoImg from '../../assets/pdf.png';
+import logoImg from '../../assets/csi.png';
 import { useState } from 'react';
 import { useCSICareContext } from '../../context';
 
@@ -53,15 +53,16 @@ export const Login = () => {
 	const onSubmit = async (data: FormData) => {
 		try {
 			await login(data).then((response) => {
+				navigate('/socios');
 				const decodedToken = JSON.parse(
 					atob(response.data.token.split('.')[1])
 				);
+				console.log(decodedToken)
 				setUser({
 					email: decodedToken.email,
 					id: decodedToken.sub,
 					nome: decodedToken.nome,
 				});
-				navigate('/profile');
 			});
 		} catch (error) {
 			setError('Usuário ou senha incorretos.');
@@ -74,6 +75,7 @@ export const Login = () => {
 					<img
 						src={logoImg}
 						alt='Logo'
+						style={{width: "20rem", margin: "0px"}}
 					/>
 				</Header>
 				<Content>

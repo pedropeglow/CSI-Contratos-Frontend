@@ -5,7 +5,7 @@ import {
 	ListItemButton,
 } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import pdfImage from './../../assets/pdf.png';
+import pdfImage from './../../assets/csiLogo.png';
 import { MenuProps } from './types';
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';

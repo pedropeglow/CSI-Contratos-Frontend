@@ -21,6 +21,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [JS Vanilla]
 - [React]
 
+[Canvas do Produto](canvas.md)
+
 ### Autor
 
 ---

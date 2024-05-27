@@ -23,6 +23,22 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 [Canvas do Produto](canvas.md)
 
+### Rodando a aplicação:
+
+```bash
+git clone https://github.com/pedropeglow/CSI-Contratos-Frontend.git
+```
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+# O servidor iniciará na porta:5173 - acesse <http://localhost:5173/>
+
 ### Autor
 
 ---

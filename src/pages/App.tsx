@@ -13,7 +13,7 @@ import { DesktopMenu } from '../components/menu/desktopMenu';
 import { useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import styled from '@emotion/styled';
-import LogoImage from './../assets/logo.png';
+import LogoImage from './../assets/csiLogo.png';
 import { MySocios } from './socios/MySocios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCSICareContext } from '../context';

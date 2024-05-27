@@ -48,21 +48,20 @@ export const Login = () => {
 		resolver: yupResolver(schema),
 	});
 
-	const { setUser } = useCSICareContext();
+	const { setUser, user } = useCSICareContext();
 
 	const onSubmit = async (data: FormData) => {
 		try {
 			await login(data).then((response) => {
 				navigate('/socios');
-				const decodedToken = JSON.parse(
-					atob(response.data.token.split('.')[1])
-				);
-				console.log(decodedToken)
+				const { token, id } = response.data;
+				localStorage.setItem('token', token);
+				localStorage.setItem('user', id);
 				setUser({
-					email: decodedToken.email,
-					id: decodedToken.sub,
-					nome: decodedToken.nome,
+					id: id,
+					token: token,
 				});
+				console.log('user', user)
 			});
 		} catch (error) {
 			setError('Usuário ou senha incorretos.');

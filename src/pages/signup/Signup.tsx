@@ -24,11 +24,16 @@ const schema = yup.object().shape({
 		.string()
 		.required('Campo senha é obrigatório')
 		.min(8, 'Senha deve conter no mínimo 8 dígitos'),
+	confirmPassword: yup
+		.string()
+		.required('Campo senha é obrigatório')
+		.min(8, 'Senha deve conter no mínimo 8 dígitos'),
 });
 
 interface FormData {
 	email: string;
 	password: string;
+	confirmPassword: string;
 }
 
 export const Signup = () => {
@@ -84,7 +89,16 @@ export const Signup = () => {
 						{errors.password && (
 							<ErrorSpan>{errors.password.message}</ErrorSpan>
 						)}
-
+						<StyledTextField
+							id='outlined-basic'
+							label='Confirmar Senha'
+							variant='outlined'
+							type='password'
+							{...register('confirmPassword', { required: true })}
+						/>
+						{errors.confirmPassword && (
+							<ErrorSpan>{errors.confirmPassword.message}</ErrorSpan>
+						)}
 						<Button
 							style={{
 								backgroundColor: '#1876F2',

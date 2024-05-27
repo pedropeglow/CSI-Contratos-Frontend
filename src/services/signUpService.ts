@@ -1,7 +1,7 @@
 import { api } from './api';
 
 export const signup = async (data: any) => {
-	const { email, password, fullname } = data;
+	const { email, password, confirmPassword } = data;
 
-	return await api.post('/usarios', { email, password, fullname });
+	return await api.post('csi/conta/registrar', { email: email, senha: password, confirmaSenha: confirmPassword });
 };

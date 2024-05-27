@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/joy';
-import Paw from './../assets/paw.png';
+import Socio from './../assets/socios.png';
 
 export const StartHere = ({ title }: { title: string }) => {
 	return (
@@ -12,7 +12,7 @@ export const StartHere = ({ title }: { title: string }) => {
 			}}
 		>
 			<img
-				src={Paw}
+				src={Socio}
 				style={{ height: '200px' }}
 			/>
 			<Typography style={{ fontSize: '20px', fontWeight: 700 }}>

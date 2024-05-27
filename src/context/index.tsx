@@ -16,7 +16,7 @@ export const CSIContext = createContext({} as any);
 export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<any[]>([]);
 	const [pessoasJuridicas, setPessoasJuridicas] = useState<any[]>([]);
-	const [user, setUser] = useState<User>({ email: '', id: 5 });
+	const [user, setUser] = useState<User>({ email: '', id: "", token: "" });
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{
 		status: boolean;
@@ -31,7 +31,7 @@ export function ProviderContext({ children }: any) {
 	const getSocios = async () => {
 		try {
 			const response = await getSociosService(user.id);
-			setSocios(response.data.socios);
+			setSocios(response.data);
 		} catch (error) {
 			throw error;
 		}
@@ -57,9 +57,9 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
-	const updateSocio = async (petData: any) => {
+	const updateSocio = async (socioData: any) => {
 		try {
-			const response = await updateSocioService(petData);
+			const response = await updateSocioService(socioData);
 			setSnackbarOpen({
 				status: true,
 				type: 'success',
@@ -196,6 +196,7 @@ export function ProviderContext({ children }: any) {
 
 	const states = {
 		socios,
+		snackbarOpen,
 		user,
 		pessoasJuridicas
 	};
@@ -203,9 +204,9 @@ export function ProviderContext({ children }: any) {
 	const actions = {
 		getSocios,
 		createSocio,
-		setUser,
 		updateSocio,
 		deleteSocio,
+		setUser,
 		getUser,
 		updateUser,
 		setSnackbarOpen,

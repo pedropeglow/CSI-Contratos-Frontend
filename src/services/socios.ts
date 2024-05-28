@@ -13,5 +13,5 @@ export const deleteSocioService = async (id: any) => {
 };
 
 export const getSociosService = async (userId: string) => {
-	return await api.get(`api/Socios/${userId}`);
+	return await api.get(`api/Socios/todosSocios/${userId}`);
 };

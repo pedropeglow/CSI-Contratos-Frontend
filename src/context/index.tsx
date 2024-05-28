@@ -16,7 +16,7 @@ export const CSIContext = createContext({} as any);
 export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<any[]>([]);
 	const [pessoasJuridicas, setPessoasJuridicas] = useState<any[]>([]);
-	const [user, setUser] = useState<User>({ email: '', id: "", token: "" });
+	const [user, setUser] = useState<User>({ email: '', id: "aaf90-ec1f-4f82-b878-00ce157bf543", token: "" });
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{
 		status: boolean;
@@ -30,6 +30,7 @@ export function ProviderContext({ children }: any) {
 
 	const getSocios = async () => {
 		try {
+			console.log("meu usuario", user)
 			const response = await getSociosService(user.id);
 			setSocios(response.data);
 		} catch (error) {
@@ -40,13 +41,25 @@ export function ProviderContext({ children }: any) {
 	const createSocio = async (socioData: any) => {
 		try {
 			socioData.userId = user.id;
+			
+			let socios = await getSociosService(user.id);
+			console.log("SOCIOS", socios.data)
+			console.log("SOCIOS quantidade", socios.lenght)
+			if(socios != null && socios.data.lenght >= 2) {
+				setSnackbarOpen({
+					status: true,
+					type: 'error',
+					message: 'Você só pode ter 2 sócios cadastrados',
+				});
+			} else {
+				const response = await createSocioService(socioData);
 			setSnackbarOpen({
 				status: true,
 				type: 'success',
 				message: 'Sucesso ao cadastrar seu socio :)',
 			});
-			const response = await createSocioService(socioData);
 			return response;
+			}
 		} catch (error) {
 			setSnackbarOpen({
 				status: true,

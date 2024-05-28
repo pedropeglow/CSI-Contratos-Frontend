@@ -12,6 +12,19 @@ import { formatRg } from '../../utils/rgFormat';
 import { formatCEP } from '../../utils/cepForm';
 import SnackbarComponent from '../../components/snackbar/Snackbar';
 
+
+const estadosCivis = [
+	{ id: 1, label: 'Solteiro' },
+	{ id: 2, label: 'Casado' },
+	{ id: 3, label: 'Viúvo' },
+	{ id: 4, label: 'Divorciado' }
+  ];
+
+const getEstadoCivilLabel = (id: number) => {
+const estadoCivil = estadosCivis.find(estado => estado.id === id);
+return estadoCivil ? estadoCivil.label : 'Desconhecido';
+};
+
 interface DashboardProps {
   handleOpenCreateForm: () => void
   handleOpenEditForm: (socio: Socio) => void
@@ -82,7 +95,7 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 											{socio?.nome}
 										</Typography>
 									</Stack>
-                  <Stack
+                  					<Stack
 										direction='column'
 										justifyContent='flex-end'
 										alignItems='flex-start'
@@ -110,7 +123,7 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 											sx={{ fontSize: 15 }}
 											color='text.primary'
 										>
-											{`Estado Cívil: ${socio?.estadoCivil}`}
+                     						 {`Estado Civil: ${getEstadoCivilLabel(socio?.estadoCivil)}`}
 										</Typography>
                     <Typography
 											sx={{ fontSize: 15 }}

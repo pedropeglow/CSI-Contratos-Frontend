@@ -1,4 +1,4 @@
-import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem   } from '@mui/material'
+import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect   } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -51,11 +51,13 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
     register,
     handleSubmit,
     formState: { errors, isValid },
-    setValue
+    setValue,
+    watch
   } = useForm<Socio>({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
+  const socioEstadoCivil = watch("estadoCivil", currentSocio.estadoCivil);
   const navigate = useNavigate()
   const {createSocio, updateSocio} = useCSICareContext()
   const [socio, setSocio] = useState<Socio>(currentSocio)
@@ -72,8 +74,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
 
   const handleEstadoCivilChange = (event: any) => {
     const value = event.target.value;
-    setSocio({ ...socio, estadoCivil: value });
-    setValue("estadoCivil", value); // Atualiza o valor no hook form
+    setSocio({ ...socio, estadoCivil: parseInt(value) });
   };
 
 
@@ -127,10 +128,11 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                   const formattedCPF = formatCPF(e.target.value);
                   setSocio({ ...socio, cpf: formattedCPF });
                 }}
+                inputProps={{ maxLength: 14 }}
                 value={socio.cpf}
               />
               <FormLabel>RG</FormLabel>
-              <Input  sx={{
+              <TextField  sx={{
                 marginRight: '10px',
                 marginBottom: '5px'
               }}
@@ -139,10 +141,11 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                   const formattedRG = formatRg(e.target.value);
                   setSocio({ ...socio, rg: formattedRG });
                 }}
+                inputProps={{ maxLength: 13 }}
                 value={socio.rg}
               />
               <FormLabel>Nacionalidade</FormLabel>
-              <Input sx={{
+              <TextField sx={{
                 marginBottom: '5px'
               }}
                 {...register("nacionalidade")}
@@ -150,17 +153,24 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.nacionalidade}
               />
               <FormLabel>Estado Civil</FormLabel>
-              <Input
-                  sx={{ 
-                    marginRight: '10px',
-                    marginBottom: '5px'
-                  }}
-                  {...register("estadoCivil")}
-                  onChange={(e) => setSocio({ ...socio, estadoCivil: parseInt(e.target.value, 10) })}
-                  value={socio.estadoCivil}
-              />
+              <NativeSelect
+               sx={{
+                marginRight: '10px',
+                marginBottom: '5px',
+                border: '20px'
+              }}
+                value={socio.estadoCivil}
+                onChange={handleEstadoCivilChange}
+                inputProps={register("estadoCivil")}
+              >
+                {estadosCivis.map((estado) => (
+                  <option key={estado.id} value={estado.id}>
+                    {estado.label}
+                  </option>
+                ))}
+            </NativeSelect>
             <FormLabel>Profissão</FormLabel>
-              <Input sx={{ 
+              <TextField sx={{ 
                     marginBottom: '5px'
                   }}
                 {...register("profissao")}
@@ -168,7 +178,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.profissao}
               />
             <FormLabel>Endereço</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px'
               }}
@@ -177,7 +187,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.endereco}
               />
             <FormLabel>Número</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginBottom: '5px'
               }}
                 {...register("nroImovel")}
@@ -185,7 +195,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.nroImovel}
               />
             <FormLabel>Bairro</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px'
               }} 
@@ -194,7 +204,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.bairro}
               />      
             <FormLabel>Cidade</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginBottom: '5px'
               }} 
                 {...register("cidade")}
@@ -202,7 +212,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.cidade}
               />
             <FormLabel>UF</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px'
               }} 
@@ -211,7 +221,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.uf}
               />
             <FormLabel>Complemento</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginBottom: '5px'
               }} 
                 {...register("complemento")}
@@ -219,7 +229,7 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 value={socio.complemento}
               />
             <FormLabel>CEP</FormLabel>
-            <Input sx={{
+            <TextField sx={{
                 marginRight: '10px',
               }} 
                 {...register("cep")}

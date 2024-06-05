@@ -9,14 +9,12 @@ import {
 import { User } from '../types/users';
 import { getUserService, updateUserService } from '../services/user';
 
-
-
 export const CSIContext = createContext({} as any);
 
 export function ProviderContext({ children }: any) {
-	const [socios, setSocios] = useState<any[]>([]);
+	const [socios, setSocios] = useState<Socio[]>([]);
 	const [pessoasJuridicas, setPessoasJuridicas] = useState<any[]>([]);
-	const [user, setUser] = useState<User>({ email: '', id: "aaf90-ec1f-4f82-b878-00ce157bf543", token: "" });
+	const [user, setUser] = useState<User>({ email: '', id: '', token: '' });
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{
 		status: boolean;
@@ -30,7 +28,6 @@ export function ProviderContext({ children }: any) {
 
 	const getSocios = async () => {
 		try {
-			console.log("meu usuario", user)
 			const response = await getSociosService(user.id);
 			setSocios(response.data);
 		} catch (error) {
@@ -41,24 +38,22 @@ export function ProviderContext({ children }: any) {
 	const createSocio = async (socioData: any) => {
 		try {
 			socioData.userId = user.id;
-			
-			let socios = await getSociosService(user.id);
-			console.log("SOCIOS", socios.data)
-			console.log("SOCIOS quantidade", socios.lenght)
-			if(socios != null && socios.data.lenght >= 2) {
+			let response = await getSociosService(user.id);
+			if (response.data.length >= 2) {
 				setSnackbarOpen({
 					status: true,
 					type: 'error',
 					message: 'Você só pode ter 2 sócios cadastrados',
 				});
 			} else {
-				const response = await createSocioService(socioData);
-			setSnackbarOpen({
-				status: true,
-				type: 'success',
-				message: 'Sucesso ao cadastrar seu socio :)',
-			});
-			return response;
+				response = await createSocioService(socioData);
+				setSnackbarOpen({
+					status: true,
+					type: 'success',
+					message: 'Sucesso ao cadastrar seu socio :)',
+				});
+				await getSocios();  // Atualiza a lista de sócios
+				return response;
 			}
 		} catch (error) {
 			setSnackbarOpen({
@@ -78,6 +73,7 @@ export function ProviderContext({ children }: any) {
 				type: 'success',
 				message: 'Sucesso ao alterar seu sócio :)',
 			});
+			await getSocios();  // Atualiza a lista de sócios
 			return response;
 		} catch (error) {
 			setSnackbarOpen({
@@ -97,6 +93,7 @@ export function ProviderContext({ children }: any) {
 				type: 'success',
 				message: 'Sucesso ao deletar seu sócio',
 			});
+			await getSocios();  // Atualiza a lista de sócios
 			return response;
 		} catch (error) {
 			setSnackbarOpen({
@@ -111,7 +108,7 @@ export function ProviderContext({ children }: any) {
 	const getPessoaJuridicas = async () => {
 		try {
 			const response = await getSociosService(user.id);
-			setSocios(response.data.socios);
+			setPessoasJuridicas(response.data.socios);
 		} catch (error) {
 			throw error;
 		}
@@ -204,8 +201,6 @@ export function ProviderContext({ children }: any) {
 			throw error;
 		}
 	};
-
-
 
 	const states = {
 		socios,

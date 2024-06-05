@@ -9,7 +9,8 @@ import pdfImage from './../../assets/csiLogo.png';
 import { MenuProps } from './types';
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../../utils/logout';
 
 const Menu = styled(Box)`
 	display: flex;
@@ -24,7 +25,16 @@ const Logo = styled('img')`
 	padding: 20px;
 `;
 
+
 export const DesktopMenu = ({ content, setContent }: MenuProps) => {
+
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		logout();
+		navigate('/login');
+	};
+
 	return (
 		<Menu
 			position='relative'
@@ -45,19 +55,15 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 				<ListItemButton onClick={() => setContent(3)}>Gerar Contrato</ListItemButton>
 			</ListItem>
 			<ListItem style={{ position: 'absolute', bottom: '0px' }}>
-				<ListItemButton
-					style={{ display: 'flex', justifyContent: 'center' }}
-					component={Link}
-					to='/login'
-				>
-					{' '}
-					<IconButton
-						color='inherit'
-						aria-label='Logout'
-					>
-						<ExitToAppIcon style={{ color: 'grey' }} />
-					</IconButton>
-				</ListItemButton>
+			<ListItemButton
+				style={{ display: 'flex', justifyContent: 'center' }}
+				onClick={handleLogout}>
+				<IconButton
+					color='inherit'
+					aria-label='Logout'>
+					<ExitToAppIcon style={{ color: 'grey' }} />
+				</IconButton>
+			</ListItemButton>
 				<ListItem>
 					<ListItemButton
 						style={{ display: 'flex', justifyContent: 'center' }}

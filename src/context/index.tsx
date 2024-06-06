@@ -8,6 +8,7 @@ import {
 } from '../services/socios';
 import { User } from '../types/users';
 import { getUserService, updateUserService } from '../services/user';
+import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, updatePessoasJuridicasService } from '../services/pessoasJuridicas';
 
 export const CSIContext = createContext({} as any);
 
@@ -105,68 +106,68 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
-	const getPessoaJuridicas = async () => {
+	const getPessoasJuridicas = async () => {
 		try {
-			const response = await getSociosService(user.id);
-			setPessoasJuridicas(response.data.socios);
+			const response = await getPessoasJuridicasService(user.id);
+			setPessoasJuridicas(response.data);
 		} catch (error) {
 			throw error;
 		}
 	};
 
-	const createPessoaJuridicas = async (socioData: any) => {
+	const createPessoasJuridicas = async (pessoaJuridicaData: any) => {
 		try {
-			socioData.userId = user.id;
+			pessoaJuridicaData.userId = user.id;
 			setSnackbarOpen({
 				status: true,
 				type: 'success',
-				message: 'Sucesso ao cadastrar seu socio :)',
+				message: 'Sucesso ao cadastrar pessoa jurídica :)',
 			});
-			const response = await createSocioService(socioData);
+			const response = await createPessoasJuridicasService(pessoaJuridicaData);
 			return response;
 		} catch (error) {
 			setSnackbarOpen({
 				status: true,
 				type: 'error',
-				message: 'Nós não conseguimos cadastrar seu sócio :(',
+				message: 'Nós não conseguimos cadastrar pessoa jurídica :(',
 			});
 			throw error;
 		}
 	};
 
-	const updatePessoaJuridicas = async (petData: any) => {
+	const updatePessoasJuridicas = async (pessoaJuridicaData: any) => {
 		try {
-			const response = await updateSocioService(petData);
+			const response = await updatePessoasJuridicasService(pessoaJuridicaData);
 			setSnackbarOpen({
 				status: true,
 				type: 'success',
-				message: 'Sucesso ao alterar seu sócio :)',
-			});
-			return response;
-		} catch (error) {
-			setSnackbarOpen({
-				status: true,
-				type: 'error',
-				message: 'Nós não conseguimos alterar seu sócio :(',
-			});
-			throw error;
-		}
-	};
-
-	const deletePessoaJuridicas = async (id: any) => {
-		try {
-			const response = await deleteSocioService(id);
-			setSnackbarOpen({
-				status: true,
-				type: 'success',
-				message: 'Sucesso ao deletar seu sócio',
+				message: 'Sucesso ao alterar pessoa jurídica :)',
 			});
 			return response;
 		} catch (error) {
 			setSnackbarOpen({
 				status: true,
 				type: 'error',
-				message: 'Nós não conseguimos deletar seu sócio :(',
+				message: 'Nós não conseguimos alterar pessoa jurídica :(',
+			});
+			throw error;
+		}
+	};
+
+	const deletePessoasJuridicas = async (id: any) => {
+		try {
+			const response = await deletePessoasJuridicasService(id);
+			setSnackbarOpen({
+				status: true,
+				type: 'success',
+				message: 'Sucesso ao deletar pessoa jurídica',
+			});
+			return response;
+		} catch (error) {
+			setSnackbarOpen({
+				status: true,
+				type: 'error',
+				message: 'Nós não conseguimos deletar pessoa jurídica :(',
 			});
 			throw error;
 		}
@@ -218,10 +219,10 @@ export function ProviderContext({ children }: any) {
 		getUser,
 		updateUser,
 		setSnackbarOpen,
-		getPessoaJuridicas,
-		createPessoaJuridicas,
-		updatePessoaJuridicas,
-		deletePessoaJuridicas
+		getPessoasJuridicas,
+		createPessoasJuridicas,
+		updatePessoasJuridicas,
+		deletePessoasJuridicas
 	};
 
 	return (

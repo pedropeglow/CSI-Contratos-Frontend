@@ -48,12 +48,6 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 			<ListItem>
 				<ListItemButton onClick={() => setContent(2)}>Pessoa Jurídica</ListItemButton>
 			</ListItem>
-			<ListItem>
-				<ListItemButton onClick={() => setContent(3)}>Consultar Contrato</ListItemButton>
-			</ListItem>
-			<ListItem>
-				<ListItemButton onClick={() => setContent(3)}>Gerar Contrato</ListItemButton>
-			</ListItem>
 			<ListItem style={{ position: 'absolute', bottom: '0px' }}>
 			<ListItemButton
 				style={{ display: 'flex', justifyContent: 'center' }}
@@ -64,17 +58,6 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 					<ExitToAppIcon style={{ color: 'grey' }} />
 				</IconButton>
 			</ListItemButton>
-				<ListItem>
-					<ListItemButton
-						style={{ display: 'flex', justifyContent: 'center' }}
-						onClick={() => setContent(6)}
-					>
-						<PersonIcon
-							fontSize='large'
-							style={{ color: 'grey' }}
-						/>
-					</ListItemButton>
-				</ListItem>
 			</ListItem>
 		</Menu>
 	);

@@ -129,22 +129,6 @@ function App() {
 									>
 										Pessoa Jurídica
 									</MenuItem>
-									<MenuItem
-										onClick={() => {
-											setContent(3);
-											setMenuOpen(false);
-										}}
-									>
-										Consultar Contrato
-									</MenuItem>
-									<MenuItem
-										onClick={() => {
-											setContent(4);
-											setMenuOpen(false);
-										}}
-									>
-										Gerar Contrato
-									</MenuItem>
 									<MenuItem>
 									<ListItemButton
 									style={{ display: 'flex', justifyContent: 'center' }}

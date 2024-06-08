@@ -33,20 +33,13 @@ const router = createBrowserRouter([
 		],
 	},
 	{
-		path: '/pessoaJuridica',
+		path: '/pessoasJuridicas',
 		element: <PrivateRoute />,
 		children: [
 			{ path: '', element: <App /> },
 			{ path: 'dashboard', element: <App /> },
 			{ path: 'create', element: <App /> },
 			{ path: 'edit', element: <App /> },
-		],
-	},
-	{
-		path: '/usuario/edit',
-		element: <PrivateRoute />,
-		children: [
-			{ path: '', element: <App /> },
 		],
 	},
 	{

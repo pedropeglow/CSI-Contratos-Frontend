@@ -21,7 +21,7 @@ import { Users } from './users/Users';
 import { Link } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
-import { MyPessoaJuridica } from './pessoaJuridica/PessoaJuridica';
+import { MyPessoasJuridicas } from './pessoaJuridica/MyPessoasJuridicas';
 
 const Logo = styled('img')`
 	height: 60px;
@@ -57,10 +57,7 @@ function App() {
 
 	useEffect(() => {
 		if (content == 1) navigate('/socios');
-		if (content == 2) navigate('/pessoaJuridica');
-		if (content == 3) navigate('/consultaContrato');
-		if (content == 4) navigate('/gerarContrato');
-		if (content == 6) navigate('/usuario/edit');
+		if (content == 2) navigate('/pessoasJuridicas');
 	}, [content]);
 
 	useEffect(() => {
@@ -160,7 +157,7 @@ function App() {
 					{content == 1 ? (
 						<MySocios />
 					) : content == 2 ? (
-						<MyPessoaJuridica />
+						<MyPessoasJuridicas />
 					) :
 					content == 6 ? (
 						<Users />

@@ -5,12 +5,13 @@ import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentT
 import { useNavigate } from 'react-router-dom';
 import { Dashboard } from './Dashboard';
 import { Form } from './Form';
+import { Socio } from '../../types/socios';
 import { PessoaJuridica } from '../../types/pessoaJuridica';
 
 
-export const MyPessoaJuridica = () => {
+export const MyPessoasJuridicas = () => {
   const navigate = useNavigate()
-  const {pessoaJuridicas, getPessoaJuridicas, deletePessoaJuridica} = useCSICareContext()
+  const {pessoasJuridicas, getPessoasJuridicas, deletePessoasJuridicas} = useCSICareContext()
 
   const [isFormOpen, setOpenForm] = useState(false)
   const [isCreate, setCreate] = useState(false)
@@ -18,13 +19,13 @@ export const MyPessoaJuridica = () => {
 
   const [pessoaJuridica, setPessoaJuridica] = useState({} as PessoaJuridica)
 
-  useEffect(() => {getPessoaJuridicas()}, [])
+  useEffect(() => {getPessoasJuridicas()}, [])
 
 
   useEffect(() => {
-    !!isFormOpen &&  !!isCreate ? navigate('/pessoaJuridica/create') : 
-    !!isFormOpen &&  !isCreate ? navigate('/pessoaJuridica/edit') :
-     navigate('/pessoaJuridica/dashboard')
+    !!isFormOpen &&  !!isCreate ? navigate('/pessoasJuridicas/create') : 
+    !!isFormOpen &&  !isCreate ? navigate('/pessoasJuridicas/edit') :
+     navigate('/pessoasJuridicas/dashboard')
   }, [isFormOpen])
 
   const handleOpenCreateForm = () => {
@@ -51,10 +52,10 @@ export const MyPessoaJuridica = () => {
   }
 
   const handleDeletePessoaJuridicaButton = async (id: string) => {
-    const response = await deletePessoaJuridica(id)
+    const response = await deletePessoasJuridicas(id)
     setDeleteConfirmation(false)
     setPessoaJuridica({} as PessoaJuridica)
-    getPessoaJuridicas()
+    getPessoasJuridicas()
 
   }
 
@@ -71,10 +72,10 @@ export const MyPessoaJuridica = () => {
        {
         !!isDeleteConfirmation && (
           <Dialog open={isDeleteConfirmation} onClose={() => setDeleteConfirmation(false)}>
-          <DialogTitle>Deletar Pessoa Juridica</DialogTitle>
+          <DialogTitle>Deletar PJ</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Você confirma que gostaria de deletar o Pessoa Juridica?
+              Você confirma que gostaria de deletar PJ?
             </DialogContentText>
           </DialogContent>
           <DialogActions>

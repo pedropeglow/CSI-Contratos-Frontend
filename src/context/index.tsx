@@ -9,12 +9,13 @@ import {
 import { User } from '../types/users';
 import { getUserService, updateUserService } from '../services/user';
 import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, updatePessoasJuridicasService } from '../services/pessoasJuridicas';
+import { PessoaJuridica } from '../types/pessoaJuridica';
 
 export const CSIContext = createContext({} as any);
 
 export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<Socio[]>([]);
-	const [pessoasJuridicas, setPessoasJuridicas] = useState<any[]>([]);
+	const [pessoasJuridicas, setPessoasJuridicas] = useState<PessoaJuridica[]>([]);
 	const [user, setUser] = useState<User>({ email: '', id: '', token: '' });
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{

@@ -48,7 +48,7 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 			<ListItem>
 				<ListItemButton onClick={() => setContent(2)}>Pessoa Jurídica</ListItemButton>
 			</ListItem>
-			<ListItem style={{ position: 'absolute', bottom: '0px' }}>
+			<ListItem>
 			<ListItemButton
 				style={{ display: 'flex', justifyContent: 'center' }}
 				onClick={handleLogout}>

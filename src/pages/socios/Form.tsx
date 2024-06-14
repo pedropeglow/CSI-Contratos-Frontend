@@ -113,7 +113,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               <FormLabel>Nome</FormLabel>
               <Input sx={{
                 marginRight: '10px',
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("nome")}
                 onChange={(e) => setSocio({...socio, nome: e.target.value})}
@@ -121,7 +128,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               />
               <FormLabel>CPF</FormLabel>
               <TextField  sx={{
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("cpf")}
                 onChange={(e) => {
@@ -134,7 +148,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               <FormLabel>RG</FormLabel>
               <TextField  sx={{
                 marginRight: '10px',
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("rg")}
                 onChange={(e) => {
@@ -146,7 +167,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               />
               <FormLabel>Nacionalidade</FormLabel>
               <TextField sx={{
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("nacionalidade")}
                 onChange={(e) => setSocio({...socio, nacionalidade: e.target.value})}
@@ -157,7 +185,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                sx={{
                 marginRight: '10px',
                 marginBottom: '5px',
-                border: '20px'
+                border: '20px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 value={socio.estadoCivil}
                 onChange={handleEstadoCivilChange}
@@ -171,7 +206,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
             </NativeSelect>
             <FormLabel>Profissão</FormLabel>
               <TextField sx={{ 
-                    marginBottom: '5px'
+                    marginBottom: '5px',
+                    height: '3rem',
+                    '& .MuiInputBase-root': {
+                      height: '100%',
+                      '& input': {
+                        padding: '10px 14px',
+                      },
+                    },
                   }}
                 {...register("profissao")}
                 onChange={(e) => setSocio({...socio, profissao: e.target.value})}
@@ -180,7 +222,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
             <FormLabel>Endereço</FormLabel>
             <TextField sx={{
                 marginRight: '10px',
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("endereco")}
                 onChange={(e) => setSocio({...socio, endereco: e.target.value})}
@@ -188,7 +237,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               />
             <FormLabel>Número</FormLabel>
             <TextField sx={{
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("nroImovel")}
                 onChange={(e) => setSocio({...socio, nroImovel: e.target.value})}
@@ -197,7 +253,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
             <FormLabel>Bairro</FormLabel>
             <TextField sx={{
                 marginRight: '10px',
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }} 
                 {...register("bairro")}
                 onChange={(e) => setSocio({...socio, bairro: e.target.value})}
@@ -205,7 +268,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               />      
             <FormLabel>Cidade</FormLabel>
             <TextField sx={{
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }} 
                 {...register("cidade")}
                 onChange={(e) => setSocio({...socio, cidade: e.target.value})}
@@ -214,7 +284,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
             <FormLabel>UF</FormLabel>
             <TextField sx={{
                 marginRight: '10px',
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }} 
                 {...register("uf")}
                 onChange={(e) => setSocio({...socio, uf: e.target.value})}
@@ -222,7 +299,14 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
               />
             <FormLabel>Complemento</FormLabel>
             <TextField sx={{
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }} 
                 {...register("complemento")}
                 onChange={(e) => setSocio({...socio, complemento: e.target.value})}
@@ -231,6 +315,13 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
             <FormLabel>CEP</FormLabel>
             <TextField sx={{
                 marginRight: '10px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }} 
                 {...register("cep")}
                 onChange={(e) => {

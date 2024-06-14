@@ -9,7 +9,7 @@ export interface PessoaJuridica {
 	uf: string;
 	cep: string;
 	userId: string;
-	prazoInicialDeDuracao: Date;
+	prazoInicialDeDuracao: string;
 	socioId1: number;
 	socioId2: number;
 	quotaSocio1: number;

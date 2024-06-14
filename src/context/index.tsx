@@ -10,12 +10,15 @@ import { User } from '../types/users';
 import { getUserService, updateUserService } from '../services/user';
 import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, updatePessoasJuridicasService } from '../services/pessoasJuridicas';
 import { PessoaJuridica } from '../types/pessoaJuridica';
+import { getCnaeService } from '../services/cnae';
+import { Cnae } from '../types/cnae';
 
 export const CSIContext = createContext({} as any);
 
 export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<Socio[]>([]);
 	const [pessoasJuridicas, setPessoasJuridicas] = useState<PessoaJuridica[]>([]);
+	const [cnaes, setCnaes] = useState<Cnae[]>([]);
 	const [user, setUser] = useState<User>({ email: '', id: '', token: '' });
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{
@@ -174,6 +177,16 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
+	const getCnaes = async () => {
+		try {
+			const response = await getCnaeService();
+			setCnaes(response.data);
+		} catch (error) {
+			throw error;
+		}
+	};
+	
+
 	const getUser = async () => {
 		try {
 			const response = await getUserService(user.id);
@@ -206,9 +219,10 @@ export function ProviderContext({ children }: any) {
 
 	const states = {
 		socios,
-		snackbarOpen,
+		pessoasJuridicas,
+		cnaes,
 		user,
-		pessoasJuridicas
+		snackbarOpen
 	};
 
 	const actions = {
@@ -216,14 +230,15 @@ export function ProviderContext({ children }: any) {
 		createSocio,
 		updateSocio,
 		deleteSocio,
-		setUser,
-		getUser,
-		updateUser,
-		setSnackbarOpen,
 		getPessoasJuridicas,
 		createPessoasJuridicas,
 		updatePessoasJuridicas,
-		deletePessoasJuridicas
+		deletePessoasJuridicas,
+		getCnaes,
+		setSnackbarOpen,
+		setUser,
+		getUser,
+		updateUser
 	};
 
 	return (

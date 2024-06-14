@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useCSICareContext } from "../../context";
 
-import { Card, CardContent, Typography, CardActions, Button, Container, Box, IconButton, Stack, CircularProgress } from '@mui/material'
-import { Socio } from '../../types/socios';
+import { Card, CardContent, Typography, CardActions, Container, Box, IconButton, Stack, CircularProgress } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -116,7 +115,7 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 						);
 					})
 				) : !pessoasJuridicas.length && !loading ? (
-					<StartHere title={'Comece adicionando seu socio!'} />
+					<StartHere title={'Adicione informações da sua PJ para gerar o Contrato!'} />
 				) : (
 					<CircularProgress color='secondary' />
 				)}

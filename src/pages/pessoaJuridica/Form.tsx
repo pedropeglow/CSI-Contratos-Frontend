@@ -1,10 +1,9 @@
-import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect   } from '@mui/material'
+import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useCSICareContext } from '../../context';
-import { Socio } from '../../types/socios';
 import { useState, useEffect } from 'react';
 import Option from '@mui/joy/Option';
 import { Select, Input, FormControl, FormLabel, Button } from '@mui/joy';
@@ -13,6 +12,8 @@ import { formatRg } from '../../utils/rgFormat';
 import { formatCEP } from '../../utils/cepForm';
 import { useNavigate } from 'react-router-dom';
 import { PessoaJuridica } from '../../types/pessoaJuridica';
+import { Socio } from '../../types/socios';
+import { Cnae } from '../../types/cnae';
 
 const estadosCivis = [
   { id: 1, label: 'Solteiro' },
@@ -47,19 +48,20 @@ interface FormProps {
   currentPessoaJuridica: PessoaJuridica
 }
 
-export const Form = ({isCreate, handleReturnButton, currentPessoaJuridica}: FormProps) => {
+export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: FormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-    watch
+    watch,
+    control
   } = useForm<PessoaJuridica>({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate()
-  const {createPessoasJuridicas, updatePessoasJuridicas} = useCSICareContext()
+  const { createPessoasJuridicas, updatePessoasJuridicas, getSocios, socios, getCnaes, cnaes } = useCSICareContext()
   const [pessoaJuridica, setPessoaJuridica] = useState<PessoaJuridica>(currentPessoaJuridica)
 
   const submitCreate = async (data: PessoaJuridica) => {
@@ -70,6 +72,25 @@ export const Form = ({isCreate, handleReturnButton, currentPessoaJuridica}: Form
     }
   };
 
+  const fetchData = async () => {
+    await getCnaes();
+    await getSocios();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleSocioChange = (event: any, field: string) => {
+    const value = event.target.value;
+    setPessoaJuridica(prevState => ({ ...prevState, [field]: parseInt(value) }));
+  };
+
+  const handleCnaeChange = (event: any) => {
+    const value = event.target.value;
+    setPessoaJuridica(prevState => ({ ...prevState, cnaeId: parseInt(value) }));
+  };
+
   const submitEdit = async (data: PessoaJuridica) => {
     const response = await updatePessoasJuridicas(data)
     if (response?.status === 204) {
@@ -78,54 +99,347 @@ export const Form = ({isCreate, handleReturnButton, currentPessoaJuridica}: Form
     }
   };
 
-  return(
-  <>
-    <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-start', padding: '40px 0px'}}>
-      <IconButton onClick={handleReturnButton}>
-        <ArrowBackIcon sx={{ fontSize: '30px'}}/>
-      </IconButton>
-    </Box>
-    <Container>
-        <Container 
+  return (
+    <>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', padding: '40px 0px' }}>
+        <IconButton onClick={handleReturnButton}>
+          <ArrowBackIcon sx={{ fontSize: '30px' }} />
+        </IconButton>
+      </Box>
+      <Container>
+        <Container
           sx={{
-            display: 'flex', 
-            flexDirection: 'column', 
+            display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            flexWrap: 'wrap', 
-            }}
-          >
-          <Typography variant="h5">{!!isCreate ? "Adicione PJ" : "Edite seu PJ" }</Typography>
-            <FormControl sx={{
+            flexWrap: 'wrap',
+          }}
+        >
+          <Typography variant="h5">{!!isCreate ? "Adicione PJ" : "Edite seu PJ"}</Typography>
+          <FormControl>
+
+            <Stack sx={{
               display: 'grid',
-              gridTemplateColumns: '0.4fr 1.2fr 0.4fr 1fr',
+              gridTemplateColumns: '0.7fr 2.1fr 1fr',
               padding: '10px',
             }}>
-
-              <FormLabel>Nome</FormLabel>
-              <Input sx={{
+              <FormLabel>Nome PJ:</FormLabel>
+              <TextField sx={{
                 marginRight: '10px',
-                marginBottom: '5px'
+                marginBottom: '5px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
               }}
                 {...register("nome")}
-                onChange={(e) => setPessoaJuridica({...pessoaJuridica, nome: e.target.value})}
+                onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, nome: e.target.value })}
                 value={pessoaJuridica.nome}
               />
-            </FormControl>
+              <FormLabel sx={{ fontStyle: 'italic', paddingTop: '10px' }}>Ex: Sociedade Ltda</FormLabel>
+            </Stack>
+
+            <Stack>
+              <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Endereço da sua Empresa</FormLabel>
+              <Stack sx={{
+                display: 'grid',
+                gridTemplateColumns: '0.4fr 1.8fr',
+                padding: '10px',
+              }}>
+                <FormLabel>Endereço:</FormLabel>
+                <TextField sx={{
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("endereco")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, endereco: e.target.value })}
+                  value={pessoaJuridica.endereco}
+                />
+              </Stack>
+
+              <Stack sx={{
+                display: 'grid',
+                gridTemplateColumns: '0.6fr 1.3fr 0.4fr 1fr',
+                padding: '10px',
+              }}>
+
+                <FormLabel>Número:</FormLabel>
+                <TextField sx={{
+                  marginRight: '10px',
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("nroImovel")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, nroImovel: e.target.value })}
+                  value={pessoaJuridica.nroImovel}
+                />
+                <FormLabel>Complemento:</FormLabel>
+                <TextField sx={{
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("complemento")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, complemento: e.target.value })}
+                  value={pessoaJuridica.complemento}
+                />
+                <FormLabel>Bairro:</FormLabel>
+                <TextField sx={{
+                  marginRight: '10px',
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("bairro")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, bairro: e.target.value })}
+                  value={pessoaJuridica.bairro}
+                />
+                <FormLabel>UF:</FormLabel>
+                <TextField sx={{
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+
+                }}
+                  {...register("uf")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, uf: e.target.value })}
+                  value={pessoaJuridica.uf}
+                />
+                <FormLabel>Cidade:</FormLabel>
+                <TextField sx={{
+                  marginRight: '10px',
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("cidade")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, cidade: e.target.value })}
+                  value={pessoaJuridica.cidade}
+                />
+                <FormLabel>CEP:</FormLabel>
+                <TextField sx={{
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("cep")}
+                  onChange={(e) => {
+                    const formattedCep = formatCEP(e.target.value);
+                    setPessoaJuridica({ ...pessoaJuridica, cep: formattedCep });
+                  }}
+                  value={pessoaJuridica.cep}
+                />
+
+              </Stack>
+            </Stack>
+
+            <Stack sx={{
+              display: 'grid',
+              gridTemplateColumns: '0.5fr 0.5fr 1fr',
+              padding: '10px',
+            }}>
+              <FormLabel>Prazo Inicial de Duração: </FormLabel>
+              <Controller
+                name="prazoInicialDeDuracao"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <input
+                    type="date"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setPessoaJuridica({ ...pessoaJuridica, prazoInicialDeDuracao: e.target.value });
+                    }}
+                    value={field.value || ""}
+                    style={{
+                      marginBottom: '5px',
+                      marginRight: '10px',
+
+                    }}
+                  />
+                )}
+              />
+              <FormLabel sx={{ fontStyle: 'italic', paddingTop: '10px' }}>Data de fundação da PJ</FormLabel>
+            </Stack>
+
+            <Stack>
+              <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Adicione seus Sócios</FormLabel>
+              <Stack sx={{
+                display: 'grid',
+                gridTemplateColumns: '0.5fr 1fr 0.5fr 1fr',
+                padding: '10px',
+              }}>
+                <FormLabel>1º Sócio:</FormLabel>
+                <NativeSelect
+                  sx={{
+                    marginRight: '10px', marginBottom: '5px', height: '3rem',
+                    '& .MuiInputBase-root': {
+                      height: '100%',
+                      '& input': {
+                        padding: '10px 14px',
+                      },
+                    },
+                  }}
+                  value={pessoaJuridica.socioId1 || ''}
+                  onChange={(e) => handleSocioChange(e, 'socioId1')}
+                  inputProps={register("socioId1")}
+                >
+                  {socios.length > 0 && socios.map((socio: Socio) => (
+                    <option key={socio.id} value={socio.id}>
+                      {socio.nome}
+                    </option>
+                  ))}
+                </NativeSelect>
+                <FormLabel>Quota 1º Sócio:</FormLabel>
+                <TextField sx={{
+                  marginRight: '10px',
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("quotaSocio1")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, quotaSocio1: parseInt(e.target.value) })}
+                  value={pessoaJuridica.quotaSocio1}
+                />
+
+                <FormLabel>2º Sócio:</FormLabel>
+                <NativeSelect
+                  sx={{
+                    marginRight: '10px', marginBottom: '5px', height: '3rem',
+                    '& .MuiInputBase-root': {
+                      height: '100%',
+                      '& input': {
+                        padding: '10px 14px',
+                      },
+                    },
+                  }}
+                  value={pessoaJuridica.socioId2 || ''}
+                  onChange={(e) => handleSocioChange(e, 'socioId2')}
+                  inputProps={register("socioId2")}
+                >
+                  {socios.length > 0 && socios.map((socio: Socio) => (
+                    <option key={socio.id} value={socio.id}>
+                      {socio.nome}
+                    </option>
+                  ))}
+                </NativeSelect>
+                <FormLabel>Quota 2º Sócio:</FormLabel>
+                <TextField sx={{
+                  marginRight: '10px',
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("quotaSocio2")}
+                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, quotaSocio2: parseInt(e.target.value) })}
+                  value={pessoaJuridica.quotaSocio2}
+                />
+              </Stack>
+            </Stack>
+
+            <Stack>
+              <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Cnae - Ramo de Atividade de sua Empresa</FormLabel>
+              <Stack sx={{
+                display: 'grid',
+                gridTemplateColumns: '0.5fr 1.5fr 1fr',
+                padding: '10px',
+              }}>
+                <FormLabel>CNAE:</FormLabel>
+                <NativeSelect
+                  sx={{
+                    marginRight: '10px',
+                    marginBottom: '5px',
+                    border: '20px',
+                    height: '3rem',
+                    '& .MuiInputBase-root': {
+                      height: '100%',
+                      '& input': {
+                        padding: '10px 14px',
+                      },
+                    },
+                  }}
+                  value={pessoaJuridica.cnaeId}
+                  onChange={handleCnaeChange}
+                  inputProps={register("cnaeId")}
+                >
+                  {cnaes.map((cnae: Cnae) => (
+                    <option key={cnae.id} value={cnae.id}>
+                      {"[" + cnae.codCnae + "] " + cnae.descCnae}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </Stack>
+
+            </Stack>
+
+
+
+          </FormControl>
           <Stack>
             <Button
               color="neutral"
               variant="soft"
-
-                onClick={() => {isCreate ? submitCreate(pessoaJuridica) : submitEdit(pessoaJuridica)}}
-                sx={{  width: '80px', marginBottom: '20px' }}
-              >
-                Salvar
-              </Button>
-          </Stack>  
+              onClick={() => { isCreate ? submitCreate(pessoaJuridica) : submitEdit(pessoaJuridica) }}
+              sx={{ width: '80px', marginBottom: '20px' }}
+            >
+              Salvar
+            </Button>
+          </Stack>
         </Container>
 
-       
+
       </Container>
-  </>
+    </>
   )
 };

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCSICareContext } from "../../context";
 
 import { Card, CardContent, Typography, CardActions, Button, Container, Box, IconButton, Stack, CircularProgress } from '@mui/material'
@@ -18,24 +18,24 @@ const estadosCivis = [
 	{ id: 2, label: 'Casado' },
 	{ id: 3, label: 'Viúvo' },
 	{ id: 4, label: 'Divorciado' }
-  ];
+];
 
 const getEstadoCivilLabel = (id: number) => {
-const estadoCivil = estadosCivis.find(estado => estado.id === id);
-return estadoCivil ? estadoCivil.label : 'Desconhecido';
+	const estadoCivil = estadosCivis.find(estado => estado.id === id);
+	return estadoCivil ? estadoCivil.label : 'Desconhecido';
 };
 
 interface DashboardProps {
-  handleOpenCreateForm: () => void
-  handleOpenEditForm: (socio: Socio) => void
-  handleOpenDeleteConfirmation: (socio: Socio) => void
+	handleOpenCreateForm: () => void
+	handleOpenEditForm: (socio: Socio) => void
+	handleOpenDeleteConfirmation: (socio: Socio) => void
 }
 
-export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenDeleteConfirmation}: DashboardProps) => {
-  const {socios, getSocios, snackbarOpen } = useCSICareContext()
-  const [loading, setLoading] = useState(false);
-  
-  const fetchData = async () => {
+export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpenDeleteConfirmation }: DashboardProps) => {
+	const { socios, getSocios, snackbarOpen } = useCSICareContext()
+	const [loading, setLoading] = useState(false);
+
+	const fetchData = async () => {
 		setLoading(true);
 		await getSocios();
 		setLoading(false);
@@ -44,8 +44,8 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 	useEffect(() => {
 		fetchData();
 	}, []);
-  
-  return (
+
+	return (
 		<>
 			<Box
 				sx={{
@@ -95,7 +95,7 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 											{socio?.nome}
 										</Typography>
 									</Stack>
-                  					<Stack
+									<Stack
 										direction='column'
 										justifyContent='flex-end'
 										alignItems='flex-start'
@@ -119,31 +119,31 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 										>
 											{`Nacionalidade: ${socio?.nacionalidade}`}
 										</Typography>
-                    <Typography
+										<Typography
 											sx={{ fontSize: 15 }}
 											color='text.primary'
 										>
-                     						 {`Estado Civil: ${getEstadoCivilLabel(socio?.estadoCivil)}`}
+											{`Estado Civil: ${getEstadoCivilLabel(socio?.estadoCivil)}`}
 										</Typography>
-                    <Typography
+										<Typography
 											sx={{ fontSize: 15 }}
 											color='text.primary'
 										>
 											{`Profissão: ${socio?.profissao}`}
 										</Typography>
-                    <Typography
+										<Typography
 											sx={{ fontSize: 15 }}
 											color='text.primary'
 										>
 											{`Endereço: ${socio?.endereco},` + ` ${socio?.nroImovel},` + ` ${socio?.bairro},` + ` ${socio?.cidade},` + ` ${socio?.uf}`}
 										</Typography>
-                    <Typography
+										<Typography
 											sx={{ fontSize: 15 }}
 											color='text.primary'
 										>
 											{`Complemento: ${socio?.complemento}`}
 										</Typography>
-                    <Typography
+										<Typography
 											sx={{ fontSize: 15 }}
 											color='text.primary'
 										>
@@ -175,8 +175,8 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 					<CircularProgress color='secondary' />
 				)}
 			</Container>
-      {!!snackbarOpen.status && <SnackbarComponent />}
+			{!!snackbarOpen.status && <SnackbarComponent />}
 		</>
 	);
-  
+
 };

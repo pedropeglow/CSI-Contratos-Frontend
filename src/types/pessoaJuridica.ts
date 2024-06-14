@@ -10,8 +10,8 @@ export interface PessoaJuridica {
 	cep: string;
 	userId: string;
 	prazoInicialDeDuracao: string;
-	socioId1: number;
-	socioId2: number;
+	socio1Id: number;
+	socio2Id: number;
 	quotaSocio1: number;
 	quotaSocio2: number;
 	cnaeId: number;

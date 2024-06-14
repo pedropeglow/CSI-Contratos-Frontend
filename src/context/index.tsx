@@ -44,22 +44,16 @@ export function ProviderContext({ children }: any) {
 		try {
 			socioData.userId = user.id;
 			let response = await getSociosService(user.id);
-			if (response.data.length >= 2) {
-				setSnackbarOpen({
-					status: true,
-					type: 'error',
-					message: 'Você só pode ter 2 sócios cadastrados',
-				});
-			} else {
-				response = await createSocioService(socioData);
-				setSnackbarOpen({
-					status: true,
-					type: 'success',
-					message: 'Sucesso ao cadastrar seu socio :)',
-				});
-				await getSocios();  // Atualiza a lista de sócios
-				return response;
-			}
+
+			response = await createSocioService(socioData);
+			setSnackbarOpen({
+				status: true,
+				type: 'success',
+				message: 'Sucesso ao cadastrar seu socio :)',
+			});
+			await getSocios();
+			return response;
+
 		} catch (error) {
 			setSnackbarOpen({
 				status: true,
@@ -78,7 +72,7 @@ export function ProviderContext({ children }: any) {
 				type: 'success',
 				message: 'Sucesso ao alterar seu sócio :)',
 			});
-			await getSocios();  // Atualiza a lista de sócios
+			await getSocios();
 			return response;
 		} catch (error) {
 			setSnackbarOpen({
@@ -98,7 +92,7 @@ export function ProviderContext({ children }: any) {
 				type: 'success',
 				message: 'Sucesso ao deletar seu sócio',
 			});
-			await getSocios();  // Atualiza a lista de sócios
+			await getSocios();
 			return response;
 		} catch (error) {
 			setSnackbarOpen({
@@ -185,7 +179,7 @@ export function ProviderContext({ children }: any) {
 			throw error;
 		}
 	};
-	
+
 
 	const getUser = async () => {
 		try {

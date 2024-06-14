@@ -54,10 +54,11 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 					justifyContent: 'flex-end',
 					padding: '40px 0px',
 				}}
-			>
-				<IconButton onClick={handleOpenCreateForm}>
+			>	
+			<IconButton onClick={handleOpenCreateForm}>
 					<AddIcon sx={{ fontSize: '30px' }} />
-				</IconButton>
+			</IconButton>
+				
 			</Box>
 			<Container
 				sx={{

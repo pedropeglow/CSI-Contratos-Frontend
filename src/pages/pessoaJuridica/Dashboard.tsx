@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCSICareContext } from "../../context";
 
 import { Card, CardContent, Typography, CardActions, Container, Box, IconButton, Stack, CircularProgress } from '@mui/material'
@@ -11,31 +11,19 @@ import { formatRg } from '../../utils/rgFormat';
 import { formatCEP } from '../../utils/cepForm';
 import SnackbarComponent from '../../components/snackbar/Snackbar';
 import { PessoaJuridica } from '../../types/pessoaJuridica';
-
-
-const estadosCivis = [
-	{ id: 1, label: 'Solteiro' },
-	{ id: 2, label: 'Casado' },
-	{ id: 3, label: 'Viúvo' },
-	{ id: 4, label: 'Divorciado' }
-  ];
-
-const getEstadoCivilLabel = (id: number) => {
-const estadoCivil = estadosCivis.find(estado => estado.id === id);
-return estadoCivil ? estadoCivil.label : 'Desconhecido';
-};
+import { dateFormat } from '../../utils/dateFormat';
 
 interface DashboardProps {
-  handleOpenCreateForm: () => void
-  handleOpenEditForm: (pessoaJuridica: PessoaJuridica) => void
-  handleOpenDeleteConfirmation: (pessoaJuridica: PessoaJuridica) => void
+	handleOpenCreateForm: () => void
+	handleOpenEditForm: (pessoaJuridica: PessoaJuridica) => void
+	handleOpenDeleteConfirmation: (pessoaJuridica: PessoaJuridica) => void
 }
 
-export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenDeleteConfirmation}: DashboardProps) => {
-  const {pessoasJuridicas, getPessoasJuridicas, snackbarOpen } = useCSICareContext()
-  const [loading, setLoading] = useState(false);
-  
-  const fetchData = async () => {
+export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpenDeleteConfirmation }: DashboardProps) => {
+	const { pessoasJuridicas, getPessoasJuridicas, snackbarOpen, socios, getSocios, cnaes } = useCSICareContext()
+	const [loading, setLoading] = useState(false);
+
+	const fetchData = async () => {
 		setLoading(true);
 		await getPessoasJuridicas();
 		setLoading(false);
@@ -44,8 +32,18 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 	useEffect(() => {
 		fetchData();
 	}, []);
-  
-  return (
+
+	const getSocioLabel = (id: number) => {
+		const socio = socios.find((socio: { id: number }) => socio.id === id);
+		return socio ? socio.nome : 'Desconhecido';
+	};
+
+	const getCnaeLabel = (id: number) => {
+		const cnae = cnaes.find((cnae: { id: number }) => cnae.id === id);
+		return cnae ? cnae.descCnae : 'Desconhecido';
+	};
+
+	return (
 		<>
 			<Box
 				sx={{
@@ -74,7 +72,7 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 								variant='outlined'
 								key={pessoaJuridica?.id}
 								sx={{
-									height: '300px',
+									height: '350px',
 									width: '420px',
 									marginBottom: '20px',
 									padding: '10px',
@@ -93,6 +91,69 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 											gutterBottom
 										>
 											{pessoaJuridica?.nome}
+										</Typography>
+									</Stack>
+									<Stack
+										direction='column'
+										justifyContent='flex-end'
+										alignItems='flex-start'
+									>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`Endereço: ${pessoaJuridica?.endereco},` + ` ${pessoaJuridica?.nroImovel},` + ` ${pessoaJuridica?.bairro},` + ` ${pessoaJuridica?.cidade},` + ` ${pessoaJuridica?.uf}`}
+										</Typography>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`Complemento: ${pessoaJuridica?.complemento}`}
+										</Typography>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`CEP: ${formatCEP(pessoaJuridica?.cep)}`}
+										</Typography>
+									</Stack>
+									<Stack>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`1º Sócio: ${getSocioLabel(pessoaJuridica.socio1Id)}`}
+										</Typography>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`2º Sócio: ${getSocioLabel(pessoaJuridica.socio2Id)}`}
+										</Typography>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`1º Quota: R$ ${pessoaJuridica?.quotaSocio1}`}
+										</Typography>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`2º Quota: R$ ${pessoaJuridica?.quotaSocio2}`}
+										</Typography>
+
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`Prazo inicial de duração: ${dateFormat(pessoaJuridica?.prazoInicialDeDuracao)}`}
+										</Typography>
+										<Typography
+											sx={{ fontSize: 15 }}
+											color='text.primary'
+										>
+											{`CNAE: ${getCnaeLabel(pessoaJuridica.cnaeId)}`}
 										</Typography>
 									</Stack>
 								</CardContent>
@@ -120,8 +181,8 @@ export const Dashboard = ({handleOpenCreateForm, handleOpenEditForm, handleOpenD
 					<CircularProgress color='secondary' />
 				)}
 			</Container>
-      {!!snackbarOpen.status && <SnackbarComponent />}
+			{!!snackbarOpen.status && <SnackbarComponent />}
 		</>
 	);
-  
+
 };

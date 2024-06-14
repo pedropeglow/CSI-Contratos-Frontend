@@ -1,4 +1,4 @@
-import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect   } from '@mui/material'
+import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -46,7 +46,7 @@ interface FormProps {
   currentSocio: Socio
 }
 
-export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) => {
+export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) => {
   const {
     register,
     handleSubmit,
@@ -57,9 +57,8 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
     mode: "onChange",
     resolver: yupResolver(schema),
   });
-  const socioEstadoCivil = watch("estadoCivil", currentSocio.estadoCivil);
   const navigate = useNavigate()
-  const {createSocio, updateSocio} = useCSICareContext()
+  const { createSocio, updateSocio } = useCSICareContext()
   const [socio, setSocio] = useState<Socio>(currentSocio)
 
   const submitCreate = async (data: Socio) => {
@@ -87,32 +86,33 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
     }
   };
 
-  return(
-  <>
-    <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-start', padding: '40px 0px'}}>
-      <IconButton onClick={handleReturnButton}>
-        <ArrowBackIcon sx={{ fontSize: '30px'}}/>
-      </IconButton>
-    </Box>
-    <Container>
-        <Container 
+  return (
+    <>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', padding: '40px 0px' }}>
+        <IconButton onClick={handleReturnButton}>
+          <ArrowBackIcon sx={{ fontSize: '30px' }} />
+        </IconButton>
+      </Box>
+      <Container>
+        <Container
           sx={{
-            display: 'flex', 
-            flexDirection: 'column', 
+            display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            flexWrap: 'wrap', 
-            }}
-          >
-          <Typography variant="h5">{!!isCreate ? "Adicione um Sócio" : "Edite seu sócio" }</Typography>
-            <FormControl sx={{
+            flexWrap: 'wrap',
+          }}
+        >
+          <Typography variant="h5">{!!isCreate ? "Adicione um Sócio" : "Edite seu sócio"}</Typography>
+          <FormControl>
+
+            <Stack sx={{
               display: 'grid',
-              gridTemplateColumns: '0.4fr 1.2fr 0.4fr 1fr',
+              gridTemplateColumns: '0.7fr 2.10fr 1fr',
               padding: '10px',
             }}>
 
-              <FormLabel>Nome</FormLabel>
-              <Input sx={{
-                marginRight: '10px',
+              <FormLabel>Nome do Sócio:</FormLabel>
+              <TextField sx={{
                 marginBottom: '5px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
@@ -123,12 +123,21 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 },
               }}
                 {...register("nome")}
-                onChange={(e) => setSocio({...socio, nome: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, nome: e.target.value })}
                 value={socio.nome}
               />
-              <FormLabel>CPF</FormLabel>
-              <TextField  sx={{
+            </Stack>
+            <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Dados do Sócio</FormLabel>
+            <Stack sx={{
+              display: 'grid',
+              gridTemplateColumns: '0.6fr 1.3fr 0.4fr 1fr',
+              padding: '10px',
+            }}>
+
+              <FormLabel>CPF:</FormLabel>
+              <TextField sx={{
                 marginBottom: '5px',
+                marginRight: '10px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -145,9 +154,8 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 inputProps={{ maxLength: 14 }}
                 value={socio.cpf}
               />
-              <FormLabel>RG</FormLabel>
-              <TextField  sx={{
-                marginRight: '10px',
+              <FormLabel>RG:</FormLabel>
+              <TextField sx={{
                 marginBottom: '5px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
@@ -165,9 +173,10 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 inputProps={{ maxLength: 13 }}
                 value={socio.rg}
               />
-              <FormLabel>Nacionalidade</FormLabel>
+              <FormLabel>Nacionalidade:</FormLabel>
               <TextField sx={{
                 marginBottom: '5px',
+                marginRight: '10px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -177,23 +186,22 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 },
               }}
                 {...register("nacionalidade")}
-                onChange={(e) => setSocio({...socio, nacionalidade: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, nacionalidade: e.target.value })}
                 value={socio.nacionalidade}
               />
-              <FormLabel>Estado Civil</FormLabel>
+              <FormLabel>Estado Civil:</FormLabel>
               <NativeSelect
-               sx={{
-                marginRight: '10px',
-                marginBottom: '5px',
-                border: '20px',
-                height: '3rem',
-                '& .MuiInputBase-root': {
-                  height: '100%',
-                  '& input': {
-                    padding: '10px 14px',
+                sx={{
+                  marginBottom: '5px',
+                  border: '20px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
                   },
-                },
-              }}
+                }}
                 value={socio.estadoCivil}
                 onChange={handleEstadoCivilChange}
                 inputProps={register("estadoCivil")}
@@ -203,24 +211,34 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                     {estado.label}
                   </option>
                 ))}
-            </NativeSelect>
-            <FormLabel>Profissão</FormLabel>
-              <TextField sx={{ 
-                    marginBottom: '5px',
-                    height: '3rem',
-                    '& .MuiInputBase-root': {
-                      height: '100%',
-                      '& input': {
-                        padding: '10px 14px',
-                      },
-                    },
-                  }}
+              </NativeSelect>
+              <FormLabel>Profissão:</FormLabel>
+              <TextField sx={{
+                marginBottom: '5px',
+                marginRight: '10px',
+                height: '3rem',
+                '& .MuiInputBase-root': {
+                  height: '100%',
+                  '& input': {
+                    padding: '10px 14px',
+                  },
+                },
+              }}
                 {...register("profissao")}
-                onChange={(e) => setSocio({...socio, profissao: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, profissao: e.target.value })}
                 value={socio.profissao}
               />
-            <FormLabel>Endereço</FormLabel>
-            <TextField sx={{
+
+            </Stack>
+            <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Endereço do Sócio</FormLabel>
+            <Stack sx={{
+              display: 'grid',
+              gridTemplateColumns: '0.4fr 1.8fr',
+              padding: '10px',
+            }}>
+
+              <FormLabel>Endereço:</FormLabel>
+              <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px',
                 height: '3rem',
@@ -232,12 +250,20 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 },
               }}
                 {...register("endereco")}
-                onChange={(e) => setSocio({...socio, endereco: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, endereco: e.target.value })}
                 value={socio.endereco}
               />
-            <FormLabel>Número</FormLabel>
-            <TextField sx={{
+            </Stack>
+
+            <Stack sx={{
+              display: 'grid',
+              gridTemplateColumns: '0.6fr 1.3fr 0.4fr 1fr',
+              padding: '10px',
+            }}>
+              <FormLabel>Número:</FormLabel>
+              <TextField sx={{
                 marginBottom: '5px',
+                marginRight: '10px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -247,11 +273,11 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                 },
               }}
                 {...register("nroImovel")}
-                onChange={(e) => setSocio({...socio, nroImovel: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, nroImovel: e.target.value })}
                 value={socio.nroImovel}
               />
-            <FormLabel>Bairro</FormLabel>
-            <TextField sx={{
+              <FormLabel>Bairro:</FormLabel>
+              <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px',
                 height: '3rem',
@@ -261,14 +287,15 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                     padding: '10px 14px',
                   },
                 },
-              }} 
+              }}
                 {...register("bairro")}
-                onChange={(e) => setSocio({...socio, bairro: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, bairro: e.target.value })}
                 value={socio.bairro}
-              />      
-            <FormLabel>Cidade</FormLabel>
-            <TextField sx={{
+              />
+              <FormLabel>Cidade:</FormLabel>
+              <TextField sx={{
                 marginBottom: '5px',
+                marginRight: '10px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -276,13 +303,13 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                     padding: '10px 14px',
                   },
                 },
-              }} 
+              }}
                 {...register("cidade")}
-                onChange={(e) => setSocio({...socio, cidade: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, cidade: e.target.value })}
                 value={socio.cidade}
               />
-            <FormLabel>UF</FormLabel>
-            <TextField sx={{
+              <FormLabel>UF:</FormLabel>
+              <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px',
                 height: '3rem',
@@ -292,28 +319,29 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                     padding: '10px 14px',
                   },
                 },
-              }} 
+              }}
                 {...register("uf")}
-                onChange={(e) => setSocio({...socio, uf: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, uf: e.target.value })}
                 value={socio.uf}
               />
-            <FormLabel>Complemento</FormLabel>
-            <TextField sx={{
+              <FormLabel>Complemento:</FormLabel>
+              <TextField sx={{
                 marginBottom: '5px',
                 height: '3rem',
+                marginRight: '10px',
                 '& .MuiInputBase-root': {
                   height: '100%',
                   '& input': {
                     padding: '10px 14px',
                   },
                 },
-              }} 
+              }}
                 {...register("complemento")}
-                onChange={(e) => setSocio({...socio, complemento: e.target.value})}
+                onChange={(e) => setSocio({ ...socio, complemento: e.target.value })}
                 value={socio.complemento}
               />
-            <FormLabel>CEP</FormLabel>
-            <TextField sx={{
+              <FormLabel>CEP:</FormLabel>
+              <TextField sx={{
                 marginRight: '10px',
                 height: '3rem',
                 '& .MuiInputBase-root': {
@@ -322,30 +350,33 @@ export const Form = ({isCreate, handleReturnButton, currentSocio}: FormProps) =>
                     padding: '10px 14px',
                   },
                 },
-              }} 
+              }}
                 {...register("cep")}
                 onChange={(e) => {
                   const formattedCep = formatCEP(e.target.value);
                   setSocio({ ...socio, cep: formattedCep });
                 }}
-               value={socio.cep}
-              />      
-            </FormControl>
+                value={socio.cep}
+              />
+            </Stack>
+
+
+          </FormControl>
           <Stack>
             <Button
               color="neutral"
               variant="soft"
 
-                onClick={() => {isCreate ? submitCreate(socio) : submitEdit(socio)}}
-                sx={{  width: '80px', marginBottom: '20px' }}
-              >
-                Salvar
-              </Button>
-          </Stack>  
+              onClick={() => { isCreate ? submitCreate(socio) : submitEdit(socio) }}
+              sx={{ width: '80px', marginBottom: '20px' }}
+            >
+              Salvar
+            </Button>
+          </Stack>
         </Container>
 
-       
+
       </Container>
-  </>
+    </>
   )
 };

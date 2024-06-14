@@ -81,14 +81,20 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
     fetchData();
   }, []);
 
-  const handleSocioChange = (event: any, field: string) => {
+  const handleSocio1Change = (event: any) => {
     const value = event.target.value;
-    setPessoaJuridica(prevState => ({ ...prevState, [field]: parseInt(value) }));
+    setPessoaJuridica({ ...pessoaJuridica, socio1Id: parseInt(value) });
+    console.log('pessoaJuridica', pessoaJuridica)
+  };
+
+  const handleSocio2Change = (event: any) => {
+    const value = event.target.value;
+    setPessoaJuridica({ ...pessoaJuridica, socio2Id: parseInt(value) });
   };
 
   const handleCnaeChange = (event: any) => {
     const value = event.target.value;
-    setPessoaJuridica(prevState => ({ ...prevState, cnaeId: parseInt(value) }));
+    setPessoaJuridica({ ...pessoaJuridica, cnaeId: parseInt(value) });
   };
 
   const submitEdit = async (data: PessoaJuridica) => {
@@ -321,11 +327,11 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                       },
                     },
                   }}
-                  value={pessoaJuridica.socioId1 || ''}
-                  onChange={(e) => handleSocioChange(e, 'socioId1')}
-                  inputProps={register("socioId1")}
+                  value={pessoaJuridica.socio1Id}
+                  onChange={handleSocio1Change}
+                  inputProps={register("socio1Id")}
                 >
-                  {socios.length > 0 && socios.map((socio: Socio) => (
+                  {socios.map((socio: Socio) => (
                     <option key={socio.id} value={socio.id}>
                       {socio.nome}
                     </option>
@@ -359,11 +365,11 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                       },
                     },
                   }}
-                  value={pessoaJuridica.socioId2 || ''}
-                  onChange={(e) => handleSocioChange(e, 'socioId2')}
-                  inputProps={register("socioId2")}
+                  value={pessoaJuridica.socio2Id}
+                  onChange={handleSocio2Change}
+                  inputProps={register("socio2Id")}
                 >
-                  {socios.length > 0 && socios.map((socio: Socio) => (
+                  {socios.map((socio: Socio) => (
                     <option key={socio.id} value={socio.id}>
                       {socio.nome}
                     </option>
@@ -408,6 +414,12 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                         padding: '10px 14px',
                       },
                     },
+                    '& .MuiNativeSelect-select': {
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                    },
+
                   }}
                   value={pessoaJuridica.cnaeId}
                   onChange={handleCnaeChange}

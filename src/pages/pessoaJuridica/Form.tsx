@@ -84,7 +84,6 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
   const handleSocio1Change = (event: any) => {
     const value = event.target.value;
     setPessoaJuridica({ ...pessoaJuridica, socio1Id: parseInt(value) });
-    console.log('pessoaJuridica', pessoaJuridica)
   };
 
   const handleSocio2Change = (event: any) => {

@@ -79,7 +79,6 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
 
   const submitEdit = async (data: Socio) => {
     const response = await updateSocio(data)
-    console.log(response)
     if (response?.status === 204) {
       handleReturnButton()
       navigate('/socios/dashboard')

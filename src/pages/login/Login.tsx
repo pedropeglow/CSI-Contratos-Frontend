@@ -61,7 +61,6 @@ export const Login = () => {
 					id: id,
 					token: token,
 				});
-				console.log('user', user)
 			});
 		} catch (error) {
 			setError('Usuário ou senha incorretos.');

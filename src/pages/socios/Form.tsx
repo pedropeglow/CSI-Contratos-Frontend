@@ -5,15 +5,16 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useCSICareContext } from '../../context';
 import { Socio } from '../../types/socios';
-import { useState, useEffect } from 'react';
-import Option from '@mui/joy/Option';
-import { Select, Input, FormControl, FormLabel, Button } from '@mui/joy';
+import { useState } from 'react';
+import { FormControl, FormLabel, Button } from '@mui/joy';
 import { formatCPF } from '../../utils/cpfFormat';
 import { formatRg } from '../../utils/rgFormat';
 import { formatCEP } from '../../utils/cepForm';
 import { useNavigate } from 'react-router-dom';
+import { fetchCepData } from '../../services/cep';
 
 const estadosCivis = [
+  { id: 0, label: 'Nenhum' },
   { id: 1, label: 'Solteiro' },
   { id: 2, label: 'Casado' },
   { id: 3, label: 'Viúvo' },
@@ -49,10 +50,7 @@ interface FormProps {
 export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) => {
   const {
     register,
-    handleSubmit,
     formState: { errors, isValid },
-    setValue,
-    watch
   } = useForm<Socio>({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -62,7 +60,6 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
   const [socio, setSocio] = useState<Socio>(currentSocio)
 
   const submitCreate = async (data: Socio) => {
-    data.userEmail = "pedro@example.com";
     data.maioridadeCivil = "s"
     const response = await createSocio(data);
 
@@ -82,6 +79,26 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
     if (response?.status === 204) {
       handleReturnButton()
       navigate('/socios/dashboard')
+    }
+  };
+
+  const handleCepChange = async (e: any) => {
+    const formattedCep = formatCEP(e.target.value);
+    setSocio({ ...socio, cep: formattedCep });
+    if (formattedCep.length === 9) {
+      const cepData = await fetchCepData(formattedCep);
+      if (cepData) {
+        setSocio({ ...socio, ...cepData });
+      }
+    } else if (formattedCep === '') {
+      setSocio(prevState => ({
+        ...prevState,
+        cep: '',
+        endereco: '',
+        bairro: '',
+        cidade: '',
+        uf: ''
+      }));
     }
   };
 
@@ -232,14 +249,37 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
             <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Endereço do Sócio</FormLabel>
             <Stack sx={{
               display: 'grid',
+              gridTemplateColumns: '0.4fr 1fr 0.8fr',
+              padding: '10px',
+            }}>
+              <FormLabel>CEP:</FormLabel>
+              <TextField
+                sx={{
+                  marginRight: '10px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                {...register("cep")}
+                onChange={handleCepChange}
+                inputProps={{ maxLength: 9 }}
+                value={socio.cep}
+              />
+            </Stack>
+            <Stack sx={{
+              display: 'grid',
               gridTemplateColumns: '0.4fr 1.8fr',
               padding: '10px',
             }}>
-
               <FormLabel>Endereço:</FormLabel>
               <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px',
+                backgroundColor: '#CBCBCB',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -251,6 +291,9 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 {...register("endereco")}
                 onChange={(e) => setSocio({ ...socio, endereco: e.target.value })}
                 value={socio.endereco}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Stack>
 
@@ -280,6 +323,7 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 marginRight: '10px',
                 marginBottom: '5px',
                 height: '3rem',
+                backgroundColor: '#CBCBCB',
                 '& .MuiInputBase-root': {
                   height: '100%',
                   '& input': {
@@ -290,11 +334,15 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 {...register("bairro")}
                 onChange={(e) => setSocio({ ...socio, bairro: e.target.value })}
                 value={socio.bairro}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
               <FormLabel>Cidade:</FormLabel>
               <TextField sx={{
                 marginBottom: '5px',
                 marginRight: '10px',
+                backgroundColor: '#CBCBCB',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -306,11 +354,15 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 {...register("cidade")}
                 onChange={(e) => setSocio({ ...socio, cidade: e.target.value })}
                 value={socio.cidade}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
               <FormLabel>UF:</FormLabel>
               <TextField sx={{
                 marginRight: '10px',
                 marginBottom: '5px',
+                backgroundColor: '#CBCBCB',
                 height: '3rem',
                 '& .MuiInputBase-root': {
                   height: '100%',
@@ -322,6 +374,9 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 {...register("uf")}
                 onChange={(e) => setSocio({ ...socio, uf: e.target.value })}
                 value={socio.uf}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
               <FormLabel>Complemento:</FormLabel>
               <TextField sx={{
@@ -338,24 +393,6 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 {...register("complemento")}
                 onChange={(e) => setSocio({ ...socio, complemento: e.target.value })}
                 value={socio.complemento}
-              />
-              <FormLabel>CEP:</FormLabel>
-              <TextField sx={{
-                marginRight: '10px',
-                height: '3rem',
-                '& .MuiInputBase-root': {
-                  height: '100%',
-                  '& input': {
-                    padding: '10px 14px',
-                  },
-                },
-              }}
-                {...register("cep")}
-                onChange={(e) => {
-                  const formattedCep = formatCEP(e.target.value);
-                  setSocio({ ...socio, cep: formattedCep });
-                }}
-                value={socio.cep}
               />
             </Stack>
 

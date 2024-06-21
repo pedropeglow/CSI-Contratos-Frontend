@@ -5,15 +5,13 @@ import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { useCSICareContext } from '../../context';
 import { useState, useEffect } from 'react';
-import Option from '@mui/joy/Option';
-import { Select, Input, FormControl, FormLabel, Button } from '@mui/joy';
-import { formatCPF } from '../../utils/cpfFormat';
-import { formatRg } from '../../utils/rgFormat';
+import { FormControl, FormLabel, Button } from '@mui/joy';
 import { formatCEP } from '../../utils/cepForm';
 import { useNavigate } from 'react-router-dom';
 import { PessoaJuridica } from '../../types/pessoaJuridica';
 import { Socio } from '../../types/socios';
 import { Cnae } from '../../types/cnae';
+import { fetchCepData } from '../../services/cep';
 
 const estadosCivis = [
   { id: 1, label: 'Solteiro' },
@@ -51,10 +49,7 @@ interface FormProps {
 export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: FormProps) => {
   const {
     register,
-    handleSubmit,
     formState: { errors, isValid },
-    setValue,
-    watch,
     control
   } = useForm<PessoaJuridica>({
     mode: "onChange",
@@ -104,6 +99,25 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
     }
   };
 
+  const handleCepChange = async (e: any) => {
+    const formattedCep = formatCEP(e.target.value);
+    setPessoaJuridica({ ...pessoaJuridica, cep: formattedCep });
+    if (formattedCep.length === 9) {
+      const cepData = await fetchCepData(formattedCep);
+      if (cepData) {
+        setPessoaJuridica({ ...pessoaJuridica, ...cepData });
+      }
+    } else if (formattedCep === '') {
+      setPessoaJuridica(prevState => ({ 
+        ...prevState, 
+        cep: '', 
+        endereco: '', 
+        bairro: '', 
+        cidade: '', 
+        uf: '' 
+      }));    }
+  };
+
   return (
     <>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', padding: '40px 0px' }}>
@@ -151,12 +165,35 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
               <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Endereço da sua Empresa</FormLabel>
               <Stack sx={{
                 display: 'grid',
+                gridTemplateColumns: '0.4fr 1fr 0.8fr',
+                padding: '10px',
+              }}>
+              <FormLabel>CEP:</FormLabel>
+                <TextField sx={{
+                  marginBottom: '5px',
+                  height: '3rem',
+                  '& .MuiInputBase-root': {
+                    height: '100%',
+                    '& input': {
+                      padding: '10px 14px',
+                    },
+                  },
+                }}
+                  {...register("cep")}
+                  onChange={handleCepChange}
+                  value={pessoaJuridica.cep}
+                  inputProps={{ maxLength: 9 }}
+                />
+                </Stack>
+              <Stack sx={{
+                display: 'grid',
                 gridTemplateColumns: '0.4fr 1.8fr',
                 padding: '10px',
               }}>
                 <FormLabel>Endereço:</FormLabel>
                 <TextField sx={{
                   marginBottom: '5px',
+                  backgroundColor: '#CBCBCB',
                   height: '3rem',
                   '& .MuiInputBase-root': {
                     height: '100%',
@@ -168,6 +205,9 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   {...register("endereco")}
                   onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, endereco: e.target.value })}
                   value={pessoaJuridica.endereco}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               </Stack>
 
@@ -212,6 +252,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                 <TextField sx={{
                   marginRight: '10px',
                   marginBottom: '5px',
+                  backgroundColor: '#CBCBCB',
                   height: '3rem',
                   '& .MuiInputBase-root': {
                     height: '100%',
@@ -223,11 +264,15 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   {...register("bairro")}
                   onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, bairro: e.target.value })}
                   value={pessoaJuridica.bairro}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
                 <FormLabel>UF:</FormLabel>
                 <TextField sx={{
                   marginBottom: '5px',
                   height: '3rem',
+                  backgroundColor: '#CBCBCB',
                   '& .MuiInputBase-root': {
                     height: '100%',
                     '& input': {
@@ -239,11 +284,15 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   {...register("uf")}
                   onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, uf: e.target.value })}
                   value={pessoaJuridica.uf}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
                 <FormLabel>Cidade:</FormLabel>
                 <TextField sx={{
                   marginRight: '10px',
                   marginBottom: '5px',
+                  backgroundColor: '#CBCBCB',
                   height: '3rem',
                   '& .MuiInputBase-root': {
                     height: '100%',
@@ -255,24 +304,9 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   {...register("cidade")}
                   onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, cidade: e.target.value })}
                   value={pessoaJuridica.cidade}
-                />
-                <FormLabel>CEP:</FormLabel>
-                <TextField sx={{
-                  marginBottom: '5px',
-                  height: '3rem',
-                  '& .MuiInputBase-root': {
-                    height: '100%',
-                    '& input': {
-                      padding: '10px 14px',
-                    },
-                  },
-                }}
-                  {...register("cep")}
-                  onChange={(e) => {
-                    const formattedCep = formatCEP(e.target.value);
-                    setPessoaJuridica({ ...pessoaJuridica, cep: formattedCep });
+                  InputProps={{
+                    readOnly: true,
                   }}
-                  value={pessoaJuridica.cep}
                 />
 
               </Stack>

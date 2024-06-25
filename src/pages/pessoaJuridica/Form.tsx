@@ -364,6 +364,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   onChange={handleSocio1Change}
                   inputProps={register("socio1Id")}
                 >
+                  <option value={''}>Nenhum</option>
                   {socios.map((socio: Socio) => (
                     <option key={socio.id} value={socio.id}>
                       {socio.nome}
@@ -402,6 +403,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   onChange={handleSocio2Change}
                   inputProps={register("socio2Id")}
                 >
+                  <option value={''}>Nenhum</option>
                   {socios.map((socio: Socio) => (
                     <option key={socio.id} value={socio.id}>
                       {socio.nome}
@@ -458,6 +460,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   onChange={handleCnaeChange}
                   inputProps={register("cnaeId")}
                 >
+                  <option value={''}>Nenhum</option>
                   {cnaes.map((cnae: Cnae) => (
                     <option key={cnae.id} value={cnae.id}>
                       {"[" + cnae.codCnae + "] " + cnae.descCnae}

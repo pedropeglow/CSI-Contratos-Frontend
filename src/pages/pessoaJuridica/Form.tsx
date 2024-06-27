@@ -1,4 +1,4 @@
-import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect } from '@mui/material'
+import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect, Link, InputAdornment } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -108,14 +108,15 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
         setPessoaJuridica({ ...pessoaJuridica, ...cepData });
       }
     } else if (formattedCep === '') {
-      setPessoaJuridica(prevState => ({ 
-        ...prevState, 
-        cep: '', 
-        endereco: '', 
-        bairro: '', 
-        cidade: '', 
-        uf: '' 
-      }));    }
+      setPessoaJuridica(prevState => ({
+        ...prevState,
+        cep: '',
+        endereco: '',
+        bairro: '',
+        cidade: '',
+        uf: ''
+      }));
+    }
   };
 
   return (
@@ -168,7 +169,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                 gridTemplateColumns: '0.4fr 1fr 0.8fr',
                 padding: '10px',
               }}>
-              <FormLabel>CEP:</FormLabel>
+                <FormLabel>CEP:</FormLabel>
                 <TextField sx={{
                   marginBottom: '5px',
                   height: '3rem',
@@ -184,7 +185,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   value={pessoaJuridica.cep}
                   inputProps={{ maxLength: 9 }}
                 />
-                </Stack>
+              </Stack>
               <Stack sx={{
                 display: 'grid',
                 gridTemplateColumns: '0.4fr 1.8fr',
@@ -386,6 +387,13 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   {...register("quotaSocio1")}
                   onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, quotaSocio1: parseInt(e.target.value) })}
                   value={pessoaJuridica.quotaSocio1}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>R$</span>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
 
                 <FormLabel>2º Sócio:</FormLabel>
@@ -425,6 +433,13 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   {...register("quotaSocio2")}
                   onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, quotaSocio2: parseInt(e.target.value) })}
                   value={pessoaJuridica.quotaSocio2}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>R$</span>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Stack>
             </Stack>
@@ -467,6 +482,10 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                     </option>
                   ))}
                 </NativeSelect>
+                <Link href="https://concla.ibge.gov.br/busca-online-cnae.html" target="_blank" rel="noopener noreferrer">
+                  O que é CNAE?
+                </Link>
+
               </Stack>
 
             </Stack>

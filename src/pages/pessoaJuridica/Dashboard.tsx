@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useCSICareContext } from "../../context";
 
-import { Card, CardContent, Typography, CardActions, Container, Box, IconButton, Stack, CircularProgress } from '@mui/material'
+import { Card, CardContent, Typography, CardActions, Container, Box, IconButton, Stack, CircularProgress, Button } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StartHere } from '../../components/startHere';
-import { formatCPF } from '../../utils/cpfFormat';
-import { formatRg } from '../../utils/rgFormat';
 import { formatCEP } from '../../utils/cepForm';
 import SnackbarComponent from '../../components/snackbar/Snackbar';
 import { PessoaJuridica } from '../../types/pessoaJuridica';
@@ -171,6 +169,17 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 									<IconButton onClick={() => handleOpenEditForm(pessoaJuridica)}>
 										<EditIcon sx={{ fontSize: '25px' }} />
 									</IconButton>
+
+								</CardActions>
+								<CardActions sx={{
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'center',
+									padding: '10px',
+								}}>
+									<Button variant="contained" color="success">
+										Gerar Contrato Social
+									</Button>
 								</CardActions>
 							</Card>
 						);

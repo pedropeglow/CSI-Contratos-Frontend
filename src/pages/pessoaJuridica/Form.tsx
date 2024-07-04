@@ -67,6 +67,22 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
     }
   };
 
+  const handleQuota1Change = (e: any) => {
+    const value = e.target.value;
+    setPessoaJuridica({
+      ...pessoaJuridica,
+      quotaSocio1: value === '' ? 0 : parseInt(value, 10),
+    });
+  };
+
+  const handleQuota2Change = (e: any) => {
+    const value = e.target.value;
+    setPessoaJuridica({
+      ...pessoaJuridica,
+      quotaSocio2: value === '' ? 0 : parseInt(value, 10),
+    });
+  };
+
   const fetchData = async () => {
     await getCnaes();
     await getSocios();
@@ -385,7 +401,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   },
                 }}
                   {...register("quotaSocio1")}
-                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, quotaSocio1: parseInt(e.target.value) })}
+                  onChange={handleQuota1Change}
                   value={pessoaJuridica.quotaSocio1}
                   InputProps={{
                     startAdornment: (
@@ -431,7 +447,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   },
                 }}
                   {...register("quotaSocio2")}
-                  onChange={(e) => setPessoaJuridica({ ...pessoaJuridica, quotaSocio2: parseInt(e.target.value) })}
+                  onChange={handleQuota2Change}
                   value={pessoaJuridica.quotaSocio2}
                   InputProps={{
                     startAdornment: (

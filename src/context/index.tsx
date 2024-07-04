@@ -8,7 +8,7 @@ import {
 } from '../services/socios';
 import { User } from '../types/users';
 import { getUserService, updateUserService } from '../services/user';
-import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, updatePessoasJuridicasService } from '../services/pessoasJuridicas';
+import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, getPessoaJuridicaPdfService, updatePessoasJuridicasService } from '../services/pessoasJuridicas';
 import { PessoaJuridica } from '../types/pessoaJuridica';
 import { getCnaeService } from '../services/cnae';
 import { Cnae } from '../types/cnae';
@@ -55,11 +55,7 @@ export function ProviderContext({ children }: any) {
 			return response;
 
 		} catch (error) {
-			setSnackbarOpen({
-				status: true,
-				type: 'error',
-				message: 'Nós não conseguimos cadastrar seu sócio :(',
-			});
+			alert('Nós não conseguimos cadastrar seu Sócio :( Verifique seus dados e preencha todos os campos corretamente');
 			throw error;
 		}
 	};
@@ -75,11 +71,7 @@ export function ProviderContext({ children }: any) {
 			await getSocios();
 			return response;
 		} catch (error) {
-			setSnackbarOpen({
-				status: true,
-				type: 'error',
-				message: 'Nós não conseguimos alterar seu sócio :(',
-			});
+			alert('Nós não conseguimos alterar seu Sócio :( Verifique seus dados e preencha todos os campos corretamente');
 			throw error;
 		}
 	};
@@ -124,11 +116,7 @@ export function ProviderContext({ children }: any) {
 			const response = await createPessoasJuridicasService(pessoaJuridicaData);
 			return response;
 		} catch (error) {
-			setSnackbarOpen({
-				status: true,
-				type: 'error',
-				message: 'Nós não conseguimos cadastrar pessoa jurídica :(',
-			});
+			alert('Nós não conseguimos cadastrar pessoa jurídica :( Verifique seus dados e preencha todos os campos corretamente');
 			throw error;
 		}
 	};
@@ -143,11 +131,7 @@ export function ProviderContext({ children }: any) {
 			});
 			return response;
 		} catch (error) {
-			setSnackbarOpen({
-				status: true,
-				type: 'error',
-				message: 'Nós não conseguimos alterar pessoa jurídica :(',
-			});
+			alert('Nós não conseguimos atualizar pessoa jurídica :( Verifique seus dados e preencha todos os campos corretamente');
 			throw error;
 		}
 	};
@@ -211,6 +195,21 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
+	const getPessoaJuridicaPdf = async (pjData: PessoaJuridica) => {
+		try {
+			const response = await getPessoaJuridicaPdfService(pjData.id);
+			const url = URL.createObjectURL(response.data);
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', `${pjData.nome}-relatorio.pdf`);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		} catch (error) {
+			console.error('Erro ao baixar o PDF:', error);
+		}
+	};
+
 	const states = {
 		socios,
 		pessoasJuridicas,
@@ -232,7 +231,8 @@ export function ProviderContext({ children }: any) {
 		setSnackbarOpen,
 		setUser,
 		getUser,
-		updateUser
+		updateUser,
+		getPessoaJuridicaPdf
 	};
 
 	return (

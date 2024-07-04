@@ -11,7 +11,7 @@ import { PessoaJuridica } from '../../types/pessoaJuridica';
 
 export const MyPessoasJuridicas = () => {
   const navigate = useNavigate()
-  const {pessoasJuridicas, getPessoasJuridicas, deletePessoasJuridicas} = useCSICareContext()
+  const {pessoasJuridicas, getPessoasJuridicas, deletePessoasJuridicas, getPessoaJuridicaPdf} = useCSICareContext()
 
   const [isFormOpen, setOpenForm] = useState(false)
   const [isCreate, setCreate] = useState(false)
@@ -33,6 +33,10 @@ export const MyPessoasJuridicas = () => {
     setOpenForm(true)
     setCreate(true)
   }
+
+  const handlePdf = (pessoaJuridica: PessoaJuridica) => {
+		getPessoaJuridicaPdf(pessoaJuridica);
+	};
 
   const handleOpenEditForm = (pessoaJuridica: PessoaJuridica) => {
     setOpenForm(true)
@@ -64,7 +68,7 @@ export const MyPessoasJuridicas = () => {
       {
       !isFormOpen 
       ?
-        <Dashboard handleOpenCreateForm={handleOpenCreateForm} handleOpenEditForm={handleOpenEditForm} handleOpenDeleteConfirmation={handleOpenDeleteConfirmation}/>  
+        <Dashboard handleOpenCreateForm={handleOpenCreateForm} handleOpenEditForm={handleOpenEditForm} handleOpenDeleteConfirmation={handleOpenDeleteConfirmation} handlePdf={handlePdf}/>  
       :
         <Form isCreate={isCreate} handleReturnButton={handleReturnButton} currentPessoaJuridica={pessoaJuridica}></Form>
        }

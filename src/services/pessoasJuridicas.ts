@@ -15,3 +15,18 @@ export const deletePessoasJuridicasService = async (id: any) => {
 export const getPessoasJuridicasService = async (userId: string) => {
 	return await api.get(`api/pessoasjuridicas/todaspjs/${userId}`);
 };
+
+
+export const getPessoaJuridicaPdfService = async (pjId: string) => {
+    return await api.post(
+        `/api/contratoSocials/${pjId}`,
+        {},
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Substitua pelo token de autenticação real
+            },
+            responseType: 'blob', // Certifica-se de que a resposta seja um blob
+        }
+    );
+};

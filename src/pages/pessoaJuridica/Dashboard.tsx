@@ -15,9 +15,10 @@ interface DashboardProps {
 	handleOpenCreateForm: () => void
 	handleOpenEditForm: (pessoaJuridica: PessoaJuridica) => void
 	handleOpenDeleteConfirmation: (pessoaJuridica: PessoaJuridica) => void
+	handlePdf: (pessoaJuridica: PessoaJuridica) => void;
 }
 
-export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpenDeleteConfirmation }: DashboardProps) => {
+export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpenDeleteConfirmation, handlePdf }: DashboardProps) => {
 	const { pessoasJuridicas, getPessoasJuridicas, snackbarOpen, socios, getSocios, cnaes } = useCSICareContext()
 	const [loading, setLoading] = useState(false);
 
@@ -70,8 +71,8 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 								variant='outlined'
 								key={pessoaJuridica?.id}
 								sx={{
-									height: '350px',
-									width: '420px',
+									height: '370',
+									width: '450px',
 									marginBottom: '20px',
 									padding: '10px',
 								}}
@@ -177,7 +178,7 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 									justifyContent: 'center',
 									padding: '10px',
 								}}>
-									<Button variant="contained" color="success">
+									<Button onClick={() => handlePdf(pessoaJuridica)} variant="contained" color="success">
 										Gerar Contrato Social
 									</Button>
 								</CardActions>

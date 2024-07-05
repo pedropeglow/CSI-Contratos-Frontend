@@ -16,7 +16,6 @@ export const getPessoasJuridicasService = async (userId: string) => {
 	return await api.get(`api/pessoasjuridicas/todaspjs/${userId}`);
 };
 
-
 export const getPessoaJuridicaPdfService = async (pjId: string) => {
     return await api.post(
         `/api/contratoSocials/${pjId}`,
@@ -29,4 +28,8 @@ export const getPessoaJuridicaPdfService = async (pjId: string) => {
             responseType: 'blob', // Certifica-se de que a resposta seja um blob
         }
     );
+};
+
+export const getContratoValidadoService = async (contratoId: string) => {
+	return await api.get(`api/contratoSocials/${contratoId}`);
 };

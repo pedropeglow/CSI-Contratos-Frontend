@@ -1,44 +1,66 @@
-import { styled, TextField, Typography } from "@mui/material";
+import { Alert, AlertColor, Snackbar, styled, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Form, Input, Label, Button } from "./styles";
+import { Form, Input, Label, Button, Div } from "./styles";
+import { getContratoValidadoService } from "../../services/pessoasJuridicas";
 
 const Feature: React.FC = () => {
-    const [codigo, setCodigo] = useState('');
+  const [codigo, setCodigo] = useState<string>('');
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor | undefined>(undefined);
 
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await getContratoSocial(codigo);
+      setSnackbarMessage('Contrato encontrado com sucesso!');
+      setSnackbarSeverity('success');
+    } catch (error : any) {
+      setSnackbarMessage('Contrato: ' + codigo + ' não encontrado');
+      setSnackbarSeverity('error');
+    } finally {
+      setSnackbarOpen(true);
+    }
+  };
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>, codigo: string) => {
-        event.preventDefault();
-        console.log("Código submetido:", codigo);
-        // Aqui você pode adicionar a lógica para enviar o código para a API
-        // Exemplo de como você pode fazer uma requisição à API usando fetch:
-        // fetch('sua-url-da-api', {
-        //   method: 'POST',
-        //   body: JSON.stringify({ codigo }),
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   }
-        // }).then(response => {
-        //   // Processar a resposta da API aqui
-        // });
-    };
+  const getContratoSocial = async (contratoId: string) => {
+    try {
+      const response = await getContratoValidadoService(contratoId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const Heading2 = styled(Typography)(({ theme }) => ({
     fontSize: 30,
     color: "black",
     textAlign: "center"
-  }))
-
-
+  }));
 
   return (
     <>
-      <Heading2 id="features" variant="h2">Pesquise um Contrato Social Válido</Heading2>
-      <Form onSubmit={(event) => onSubmit(event, codigo)}>
-             <Label htmlFor="idContrato">Digite o Código do Contrato:</Label>
-             <Input type="text" id="idContrato" name="idContrato" value={codigo} onChange={(event) => setCodigo(event.target.value)}></Input> 
-             <Button type="submit">Pesquisar</Button>
+      <Div>
+        <Heading2 id="features" variant="h2">Pesquise um Contrato Social Válido</Heading2>
+        <Form onSubmit={onSubmit}>
+          <Label htmlFor="idContrato">Digite o Código do Contrato:</Label>
+          <Input type="text" id="idContrato" name="idContrato" value={codigo} onChange={(event) => setCodigo(event.target.value)}></Input>
+          <Button type="submit">Pesquisar</Button>
         </Form>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+        >
+          <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+      </Div>
     </>
   );
 };

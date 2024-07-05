@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const Div = styled.div`
+background-color: #BBEAEC;
+padding: 20px;
+`
 
 export const Form = styled.form`
 display: flex;
@@ -11,6 +15,7 @@ row-gap: 8px;
 
 export const Label = styled.label `
 font-size: 20px;
+color: black
 `
 
 export const Input = styled.input `

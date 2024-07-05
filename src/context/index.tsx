@@ -8,10 +8,11 @@ import {
 } from '../services/socios';
 import { User } from '../types/users';
 import { getUserService, updateUserService } from '../services/user';
-import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, getPessoaJuridicaPdfService, updatePessoasJuridicasService } from '../services/pessoasJuridicas';
+import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, getPessoaJuridicaPdfService, updatePessoasJuridicasService, getContratoValidadoService } from '../services/pessoasJuridicas';
 import { PessoaJuridica } from '../types/pessoaJuridica';
 import { getCnaeService } from '../services/cnae';
 import { Cnae } from '../types/cnae';
+import { Contrato } from '../types/contrato';
 
 export const CSIContext = createContext({} as any);
 
@@ -19,7 +20,9 @@ export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<Socio[]>([]);
 	const [pessoasJuridicas, setPessoasJuridicas] = useState<PessoaJuridica[]>([]);
 	const [cnaes, setCnaes] = useState<Cnae[]>([]);
+	const [contratos, setContratos] = useState<Contrato[]>([]);
 	const [user, setUser] = useState<User>({ email: '', id: '', token: '' });
+
 
 	const [snackbarOpen, setSnackbarOpen] = useState<{
 		status: boolean;
@@ -210,6 +213,14 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
+	const getContratoSocial = async (contratoId: string) => {
+		try {
+			const response = await getContratoValidadoService(contratoId);
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	const states = {
 		socios,
 		pessoasJuridicas,
@@ -232,7 +243,8 @@ export function ProviderContext({ children }: any) {
 		setUser,
 		getUser,
 		updateUser,
-		getPessoaJuridicaPdf
+		getPessoaJuridicaPdf,
+		getContratoSocial
 	};
 
 	return (

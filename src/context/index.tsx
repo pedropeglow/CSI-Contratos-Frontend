@@ -20,7 +20,6 @@ export function ProviderContext({ children }: any) {
 	const [socios, setSocios] = useState<Socio[]>([]);
 	const [pessoasJuridicas, setPessoasJuridicas] = useState<PessoaJuridica[]>([]);
 	const [cnaes, setCnaes] = useState<Cnae[]>([]);
-	const [contratos, setContratos] = useState<Contrato[]>([]);
 	const [user, setUser] = useState<User>({ email: '', id: '', token: '' });
 
 

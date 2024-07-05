@@ -7,9 +7,8 @@ import {
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import pdfImage from './../../assets/csiLogo.png';
 import { MenuProps } from './types';
-import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../utils/logout';
 
 const Menu = styled(Box)`

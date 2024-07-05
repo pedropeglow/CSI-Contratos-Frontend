@@ -14,9 +14,11 @@ const Feature: React.FC = () => {
     try {
       const response = await getContratoSocial(codigo);
       setSnackbarMessage('Contrato encontrado com sucesso!');
+      alert('Contrato encontrado com sucesso!');
       setSnackbarSeverity('success');
     } catch (error : any) {
       setSnackbarMessage('Contrato: ' + codigo + ' não encontrado');
+      alert('Contrato: ' + codigo + ' não encontrado');
       setSnackbarSeverity('error');
     } finally {
       setSnackbarOpen(true);

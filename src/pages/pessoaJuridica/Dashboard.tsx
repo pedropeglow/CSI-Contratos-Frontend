@@ -52,9 +52,9 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 					padding: '40px 0px',
 				}}
 			>
-				<IconButton onClick={handleOpenCreateForm}>
+			{pessoasJuridicas.length < 1 ? <IconButton onClick={handleOpenCreateForm}>
 					<AddIcon sx={{ fontSize: '30px' }} />
-				</IconButton>
+			</IconButton> : <></>}
 			</Box>
 			<Container
 				sx={{
@@ -182,7 +182,17 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 										Gerar Contrato Social
 									</Button>
 								</CardActions>
+								<Typography sx={{ fontSize: 14, padding: '10px', textAlign: 'justify' }}>
+									Após elaborar o contrato, clique em <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">Inscrição de Sociedade Simples LTDA</a>. 
+									Em seguida, siga os passos abaixo:
+									<ol>
+										<li>Assista ao <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">primeiro vídeo</a> do site para aprender a fazer a pesquisa de viabilidade.</li>
+										<li>Preencha o Documento Básico de Entrada (DBE) conforme explicado no <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">segundo vídeo</a> do site.</li>
+										<li>Leve o contrato assinado ao cartório com o protocolo do DBE ou apresente todos os documentos com assinatura eletrônica no portal <a href="https://www.rtdbrasil.org.br/">RTD Brasil</a>.</li>
+									</ol>
+								</Typography>
 							</Card>
+							
 						);
 					})
 				) : !pessoasJuridicas.length && !loading ? (

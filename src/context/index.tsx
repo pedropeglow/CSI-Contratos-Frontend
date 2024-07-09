@@ -7,12 +7,10 @@ import {
 	updateSocioService,
 } from '../services/socios';
 import { User } from '../types/users';
-import { getUserService, updateUserService } from '../services/user';
 import { createPessoasJuridicasService, deletePessoasJuridicasService, getPessoasJuridicasService, getPessoaJuridicaPdfService, updatePessoasJuridicasService, getContratoValidadoService } from '../services/pessoasJuridicas';
 import { PessoaJuridica } from '../types/pessoaJuridica';
 import { getCnaeService } from '../services/cnae';
 import { Cnae } from '../types/cnae';
-import { Contrato } from '../types/contrato';
 
 export const CSIContext = createContext({} as any);
 
@@ -166,37 +164,6 @@ export function ProviderContext({ children }: any) {
 		}
 	};
 
-
-	const getUser = async () => {
-		try {
-			const response = await getUserService(user.id);
-			setUser({ ...response.data });
-		} catch (error) {
-			throw error;
-		}
-	};
-
-	const updateUser = async (userData: any) => {
-		try {
-			delete userData.password;
-			delete userData.socios;
-			const response = await updateUserService(userData);
-			setSnackbarOpen({
-				status: true,
-				type: 'success',
-				message: 'Cadastro alterado com sucesso! :)',
-			});
-			return response;
-		} catch (error) {
-			setSnackbarOpen({
-				status: true,
-				type: 'error',
-				message: 'Nós não conseguimos alterar seu cadastro :(',
-			});
-			throw error;
-		}
-	};
-
 	const getPessoaJuridicaPdf = async (pjData: PessoaJuridica) => {
 		try {
 			const response = await getPessoaJuridicaPdfService(pjData.id);
@@ -240,8 +207,6 @@ export function ProviderContext({ children }: any) {
 		getCnaes,
 		setSnackbarOpen,
 		setUser,
-		getUser,
-		updateUser,
 		getPessoaJuridicaPdf,
 		getContratoSocial
 	};

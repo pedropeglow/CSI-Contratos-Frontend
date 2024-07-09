@@ -5,7 +5,6 @@ import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentT
 import { useNavigate } from 'react-router-dom';
 import { Dashboard } from './Dashboard';
 import { Form } from './Form';
-import { Socio } from '../../types/socios';
 import { PessoaJuridica } from '../../types/pessoaJuridica';
 
 

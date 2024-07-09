@@ -15,9 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import styled from '@emotion/styled';
 import LogoImage from './../assets/csiLogo.png';
 import { MySocios } from './socios/MySocios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useCSICareContext } from '../context';
-import { Users } from './users/Users';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
@@ -32,7 +30,6 @@ function App() {
 	const theme = useTheme<Theme>();
 	const navigate = useNavigate();
 
-	const { getUser, user } = useCSICareContext();
 	const [isMobile, setIsMobile] = useState(false);
 	const [content, setContent] = useState(1);
 	const [isMenuOpen, setMenuOpen] = useState(false);
@@ -59,10 +56,6 @@ function App() {
 		if (content == 1) navigate('/socios');
 		if (content == 2) navigate('/pessoasJuridicas');
 	}, [content]);
-
-	useEffect(() => {
-		getUser();
-	}, []);
 
 	return (
 		<>
@@ -158,9 +151,6 @@ function App() {
 						<MySocios />
 					) : content == 2 ? (
 						<MyPessoasJuridicas />
-					) :
-					content == 6 ? (
-						<Users />
 					) : (
 						<div> Página {content} ainda em construção</div>
 					)}

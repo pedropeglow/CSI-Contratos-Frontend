@@ -183,11 +183,11 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 									</Button>
 								</CardActions>
 								<Typography sx={{ fontSize: 14, padding: '10px', textAlign: 'justify' }}>
-									Após elaborar o contrato, clique em <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">Inscrição de Sociedade Simples LTDA</a>. 
+									Após elaborar e gerar o contrato, clique em <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">Inscrição de Sociedade Simples LTDA</a>. 
 									Em seguida, siga os passos abaixo:
 									<ol>
-										<li>Assista ao <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">primeiro vídeo</a> do site para aprender a fazer a pesquisa de viabilidade.</li>
-										<li>Preencha o Documento Básico de Entrada (DBE) conforme explicado no <a href="https://terceiroregistropoa.com.br/sociedadeltda.html">segundo vídeo</a> do site.</li>
+										<li>Assista ao <a href="https://www.youtube.com/watch?v=F4evJitcc4o">primeiro vídeo</a> do site para aprender a fazer a pesquisa de viabilidade.</li>
+										<li>Preencha o Documento Básico de Entrada (DBE) conforme explicado no <a href="https://www.youtube.com/watch?v=JlklZbmUPHo">segundo vídeo</a> do site.</li>
 										<li>Leve o contrato assinado ao cartório com o protocolo do DBE ou apresente todos os documentos com assinatura eletrônica no portal <a href="https://www.rtdbrasil.org.br/">RTD Brasil</a>.</li>
 									</ol>
 								</Typography>

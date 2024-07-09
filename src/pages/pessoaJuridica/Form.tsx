@@ -1,4 +1,4 @@
-import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect, Link, InputAdornment } from '@mui/material'
+import { Container, Box, IconButton, Avatar, TextField, Typography, Grid, useTheme, css, Stack, Alert, MenuItem, NativeSelect, Link, InputAdornment, Tooltip } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,6 +12,7 @@ import { PessoaJuridica } from '../../types/pessoaJuridica';
 import { Socio } from '../../types/socios';
 import { Cnae } from '../../types/cnae';
 import { fetchCepData } from '../../services/cep';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 const estadosCivis = [
   { id: 1, label: 'Solteiro' },
@@ -464,7 +465,7 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
               <FormLabel sx={{ fontWeight: 'bold', fontSize: '20px' }}>Cnae - Ramo de Atividade de sua Empresa</FormLabel>
               <Stack sx={{
                 display: 'grid',
-                gridTemplateColumns: '0.5fr 1.5fr 1fr',
+                gridTemplateColumns: '0.5fr 1.5fr 0.5fr 0.5fr',
                 padding: '10px',
               }}>
                 <FormLabel>CNAE:</FormLabel>
@@ -501,6 +502,12 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                 <Link href="https://concla.ibge.gov.br/busca-online-cnae.html" target="_blank" rel="noopener noreferrer">
                   O que é CNAE?
                 </Link>
+                <Tooltip title="Caso seu ramo de atividade não esteja disponível, entre em contato conosco através do email suporte@csicontrato.com.br">
+                <IconButton>
+                  <QuestionMarkIcon />
+                </IconButton>
+               </Tooltip>
+                
 
               </Stack>
 

@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Home", "Guia", "Sobre Nós", "Features", "Contato"].map(
+        {["Home", "Guia", "Sobre Nós", "Pesquisa de Contrato", "Contato"].map(
           (text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
@@ -147,8 +147,8 @@ const Navbar: React.FC = () => {
           <NavLink onClick={() => scrollToSection("sobrenos")} variant="body2">
             Sobre Nós
           </NavLink>
-          <NavLink onClick={() => scrollToSection("features")} variant="body2">
-            Features
+          <NavLink onClick={() => scrollToSection("pesquisaContratos")} variant="body2">
+            Pesquisa de Contrato
           </NavLink>
           <NavLink onClick={() => scrollToSection("contato")} variant="body2">
             Contato

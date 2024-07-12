@@ -1,4 +1,4 @@
-import { Container, Box, IconButton, TextField, Typography, Stack, NativeSelect } from '@mui/material'
+import { Container, Box, IconButton, TextField, Typography, Stack, NativeSelect, FormControlLabel, Checkbox } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -395,7 +395,7 @@ export const Form = ({ isCreate, handleReturnButton, currentSocio }: FormProps) 
                 value={socio.complemento}
               />
             </Stack>
-
+            <Typography>O preenchimento de todos os campos é obrigatório sob risco de indeferimento do registro no cartório</Typography>
 
           </FormControl>
           <Stack>

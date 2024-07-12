@@ -14,13 +14,6 @@ import { Cnae } from '../../types/cnae';
 import { fetchCepData } from '../../services/cep';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-const estadosCivis = [
-  { id: 1, label: 'Solteiro' },
-  { id: 2, label: 'Casado' },
-  { id: 3, label: 'Viúvo' },
-  { id: 4, label: 'Divorciado' }
-];
-
 interface FormWrapperProps {
   theme: any
 }
@@ -507,13 +500,10 @@ export const Form = ({ isCreate, handleReturnButton, currentPessoaJuridica }: Fo
                   <QuestionMarkIcon />
                 </IconButton>
                </Tooltip>
-                
-
               </Stack>
-
             </Stack>
-
-
+            
+            <Typography>O preenchimento de todos os campos é obrigatório sob risco de indeferimento do registro no cartório</Typography>
 
           </FormControl>
           <Stack>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Form, Input, Label, Button, Div } from "./styles";
 import { getContratoValidadoService } from "../../services/pessoasJuridicas";
 
-const Feature: React.FC = () => {
+const pesquisaContrato: React.FC = () => {
   const [codigo, setCodigo] = useState<string>('');
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>('');
@@ -41,13 +41,23 @@ const Feature: React.FC = () => {
   const Heading2 = styled(Typography)(({ theme }) => ({
     fontSize: 30,
     color: "black",
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: "20px"
   }));
 
   return (
     <>
       <Div>
-        <Heading2 id="features" variant="h2">Pesquise um Contrato Social Válido</Heading2>
+      <div
+        style={{
+          marginTop: "20px",
+          width: "5%",
+          height: "5px",
+          backgroundColor: "#000339",
+          margin: "0 auto",
+        }}
+      ></div>
+        <Heading2 id="pesquisaContratos" variant="h2">Pesquise um Contrato Social Válido</Heading2>
         <Form onSubmit={onSubmit}>
           <Label htmlFor="idContrato">Digite o Código do Contrato:</Label>
           <Input type="text" id="idContrato" name="idContrato" value={codigo} onChange={(event) => setCodigo(event.target.value)}></Input>
@@ -67,4 +77,4 @@ const Feature: React.FC = () => {
   );
 };
 
-export default Feature;
+export default pesquisaContrato;

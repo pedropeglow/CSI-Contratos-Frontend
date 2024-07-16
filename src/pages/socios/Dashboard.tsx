@@ -77,8 +77,8 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 								variant='outlined'
 								key={socio?.id}
 								sx={{
-									height: '300px',
-									width: '420px',
+									height: '320px',
+									width: '500px',
 									marginBottom: '20px',
 									padding: '10px',
 								}}
@@ -135,8 +135,17 @@ export const Dashboard = ({ handleOpenCreateForm, handleOpenEditForm, handleOpen
 											{`Profissão: ${socio?.profissao}`}
 										</Typography>
 										<Typography
-											sx={{ fontSize: 15 }}
-											color='text.primary'
+												sx={{
+													fontSize: 15,
+													color: 'text.primary',
+													wordWrap: 'break-word',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis',
+													display: '-webkit-box',
+													WebkitLineClamp: 1, 
+													WebkitBoxOrient: 'vertical'
+												}}
+												title={`Endereço: ${socio?.endereco}, ${socio?.nroImovel}, ${socio?.bairro}, ${socio?.cidade}, ${socio?.uf}`}
 										>
 											{`Endereço: ${socio?.endereco},` + ` ${socio?.nroImovel},` + ` ${socio?.bairro},` + ` ${socio?.cidade},` + ` ${socio?.uf}`}
 										</Typography>

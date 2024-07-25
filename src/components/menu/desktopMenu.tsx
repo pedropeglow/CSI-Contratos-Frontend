@@ -39,8 +39,10 @@ export const DesktopMenu = ({ content, setContent }: MenuProps) => {
 			position='relative'
 			flexDirection='column'
 			width='200px'
-		>
+		>	
+			<a href='/'>
 			<Logo src={pdfImage} />
+			</a>
 			<ListItem>
 				<ListItemButton onClick={() => setContent(1)}>Meus Sócios</ListItemButton>
 			</ListItem>

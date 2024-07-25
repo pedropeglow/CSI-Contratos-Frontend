@@ -60,10 +60,12 @@ export const Signup = () => {
 		<Background>
 			<Container>
 				<Header>
+					<a href='/'>
 					<img
 						src={logoImg}
 						alt='Logo'
 					/>
+					</a>
 					<span>Crie sua conta:</span>
 				</Header>
 				<Content>
